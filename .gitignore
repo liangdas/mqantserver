@@ -2,6 +2,7 @@
 .idea
 bin/server
 bin/client
+src/github.com/robertkrimen
 pkg
 *.o
 *.a
