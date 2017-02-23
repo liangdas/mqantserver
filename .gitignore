@@ -3,6 +3,7 @@
 bin/server
 bin/client
 src/github.com/robertkrimen
+src/gopkg.in
 pkg
 *.o
 *.a
