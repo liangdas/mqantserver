@@ -31,7 +31,7 @@ func (m *Login) GetServer() (*module.Server){
 func (m *Login) OnInit(app module.App,settings *conf.ModuleSettings) {
 	m.app=app
 	m.GetServer().OnInit(app,settings)
-	m.GetServer().RegisterGO("Handler_Login",m.login) //我们约定所有对客户端的请求都以Handler_开头
+	m.GetServer().RegisterGO("HD_Login",m.login) //我们约定所有对客户端的请求都以Handler_开头
 	m.GetServer().RegisterGO("getRand",m.getRand) //演示后台模块间的rpc调用
 }
 

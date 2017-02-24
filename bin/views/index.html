@@ -21,7 +21,7 @@
                 log("onConnected")
                 //开始登陆
                 payload=JSON.stringify({"userName": "liangdas", "passWord": "Hello,anyone!"})
-                client.send("Login/Handler_Login/1",payload , 1);
+                client.send("Login/HD_Login/1",payload , 1);
             }
             function onFailure() {
                 console.log("onConnected");
@@ -55,10 +55,10 @@
             var msg=document.getElementById("messageId");
             if(msg.value=="join"){
                 payload=JSON.stringify({"roomName": "abc"})
-                client.send("Chat/Handler_JoinChat/2",payload ,1);
+                client.send("Chat/HD_JoinChat/2",payload ,1);
             }else{
                 payload=JSON.stringify({"roomName": "abc","say": msg.value})
-                client.send("Chat/Handler_Say/2",payload ,1);
+                client.send("Chat/HD_Say/2",payload ,1);
             }
         }
     </script>

@@ -39,8 +39,8 @@ func (m *Chat) OnInit(app module.App,settings *conf.ModuleSettings) {
 	//创建一个远程调用的RPC
 	m.GetServer().OnInit(app,settings)
 	//注册远程调用的函数
-	m.GetServer().RegisterGO("Handler_JoinChat",m.joinChat) //我们约定所有对客户端的请求都以Handler_开头
-	m.GetServer().RegisterGO("Handler_Say",m.say) //我们约定所有对客户端的请求都以Handler_开头
+	m.GetServer().RegisterGO("HD_JoinChat",m.joinChat) //我们约定所有对客户端的请求都以Handler_开头
+	m.GetServer().RegisterGO("HD_Say",m.say) //我们约定所有对客户端的请求都以Handler_开头
 
 }
 

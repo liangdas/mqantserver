@@ -8,7 +8,7 @@ import json
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code %d"%rc)
-    client.publish("Login/Handler_Login/1", json.dumps({"userName": user, "passWord": "Hello,anyone!"}),qos=2,retain=False)
+    client.publish("Login/HD_Login/1", json.dumps({"userName": user, "passWord": "Hello,anyone!"}),qos=2,retain=False)
 
 
 
@@ -46,6 +46,6 @@ if __name__ == '__main__':
         s = raw_input("请先输入'join'加入房间,然后输入任意聊天字符:\n")
         if s:
             if s=="join":
-                client.publish("Chat/Handler_JoinChat/2", json.dumps({"roomName": "abc"}),qos=2,retain=False)
+                client.publish("Chat/HD_JoinChat/2", json.dumps({"roomName": "abc"}),qos=2,retain=False)
             else:
-                client.publish("Chat/Handler_Say/2", json.dumps({"roomName": "abc","say": s}),qos=2,retain=False)
+                client.publish("Chat/HD_Say/2", json.dumps({"roomName": "abc","say": s}),qos=2,retain=False)
