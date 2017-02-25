@@ -18,7 +18,7 @@ var Module = func() (module.Module){
 type Chat struct {
 	app	module.App
 	server *module.Server
-	chats  map[string][]*gate.Session
+	chats  map[string]map[string]*gate.Session
 }
 func (m *Chat) GetType()(string){
 	//很关键,需要与配置文件中的Module配置对应
@@ -34,7 +34,7 @@ func (m *Chat) GetServer() (*module.Server){
 func (m *Chat) OnInit(app module.App,settings *conf.ModuleSettings) {
 	//初始化模块
 	m.app=app
-	m.chats=map[string][]*gate.Session{}
+	m.chats=map[string]map[string]*gate.Session{}
 
 	//创建一个远程调用的RPC
 	m.GetServer().OnInit(app,settings)
@@ -54,9 +54,9 @@ func (m *Chat) OnDestroy() {
 	m.GetServer().OnDestroy()
 }
 
-func (m *Chat) joinChat(s map[string]interface{},msg map[string]interface{})(result string,err string) {
-	if msg["roomName"]==nil{
-		result="roomName cannot be nil"
+func (m *Chat) joinChat(s map[string]interface{},msg map[string]interface{})(result map[string]interface{},err string) {
+	if msg["roomName"]==""{
+		err="roomName cannot be nil"
 		return
 	}
 	session:=gate.NewSession(m.app,s)
@@ -71,45 +71,53 @@ func (m *Chat) joinChat(s map[string]interface{},msg map[string]interface{})(res
 
 	log.Debug("演示模块间RPC调用 :",r)
 
-	userList:=m.chats["roomName"]
+	userList:=m.chats[roomName]
 	if userList==nil{
 		//添加一个新的房间
-		userList=[]*gate.Session{session}
-		m.chats["roomName"]=userList
+		userList=map[string]*gate.Session{session.Userid:session}
+		m.chats[roomName]=userList
 	}else{
-		for i,user:=range userList{
-			if user.Userid==session.Userid{
-				//已经加入过这个聊天室了 不过这里还是替换一下session 因此用户可能是重连的
-				err="Already in this chat room"
-				userList[i]=session
-				return
-			}
-		}
+		//user:=userList[session.Userid]
+		//if user!=nil{
+			//已经加入过这个聊天室了 不过这里还是替换一下session 因此用户可能是重连的
+			//err="Already in this chat room"
+			//userList[session.Userid]=session
+			//return
+		//}
 		//添加这个用户进入聊天室
-		userList=append(userList,session)
-		m.chats["roomName"]=userList
+		userList[session.Userid]=session
 	}
 
 	rmsg:=map[string]string{}
 	rmsg["roomName"]=roomName
-	rmsg["userName"]=session.Userid
+	rmsg["user"]=session.Userid
 	b,_:=json.Marshal(rmsg)
-	//广播添加用户信息到该房间的所有用户
-	for _,user:=range userList{
-		//这个不保证信息是否真的发送成功
-		user.SendNR("Chat/OnJoin",b)
 
-		//err:=user.Send("Chat/OnJoin",b)
-		//if err!=nil{
-		//	//信息没有发送成功
-		//}
+	userL:=make([]string,len(userList))
+	//广播添加用户信息到该房间的所有用户
+	i:=0
+	for _,user:=range userList{
+		if user.Userid!=session.Userid{
+			//给其他用户发送消息
+			err:=user.Send("Chat/OnJoin",b)
+			if err!=""{
+				//信息没有发送成功
+				m.onLeave(roomName,user.Userid)
+			}
+		}
+		userL[i]=user.Userid
+		i++
+
 	}
-	return "join success",""
+	result=map[string]interface{}{
+		"users":userL,
+	}
+	return
 }
 
 func (m *Chat) say(s map[string]interface{},msg map[string]interface{})(result string,err string){
-	if msg["roomName"]==nil||msg["say"]==nil{
-		result="roomName or say cannot be nil"
+	if msg["roomName"]==nil||msg["content"]==nil{
+		err="roomName or say cannot be nil"
 		return
 	}
 	session:=gate.NewSession(m.app,s)
@@ -118,37 +126,69 @@ func (m *Chat) say(s map[string]interface{},msg map[string]interface{})(result s
 		return
 	}
 	roomName:=msg["roomName"].(string)
-	say:=msg["say"].(string)
-	userList:=m.chats["roomName"]
+	//from:=msg["from"].(string)
+	target:=msg["target"].(string)
+	content:=msg["content"].(string)
+	userList:=m.chats[roomName]
 	if userList==nil{
 		err="No room"
 		return
 	}else{
-		isJion:=false
-		for _,user:=range userList{
-			if user.Userid==session.Userid{
-				//已经加入过这个聊天室了
-				isJion=true
-				break
-			}
-		}
-		if !isJion{
+		user:=userList[session.Userid]
+		if user==nil{
 			err="You haven't been in the room yet"
 			return
 		}
-
 		rmsg:=map[string]string{}
 		rmsg["roomName"]=roomName
-		rmsg["userName"]=session.Userid
-		rmsg["say"]=say
+		rmsg["from"]=session.Userid
+		rmsg["target"]=target
+		rmsg["msg"]=content
 		b,_:=json.Marshal(rmsg)
-		//广播添加用户信息到该房间的所有用户
-		for _,user:=range userList{
-			user.SendNR("Chat/OnSay",b)
+		if target=="*"{
+			//广播添加用户信息到该房间的所有用户
+			for _,user:=range userList{
+				err:=user.Send("Chat/OnChat",b)
+				if err!=""{
+					//信息没有发送成功
+					m.onLeave(roomName,user.Userid)
+				}
+			}
+		}else{
+			user:=userList[target]
+			if user==nil{
+				err="This user haven't been in the room yet"
+				return
+			}
+			e:=user.Send("Chat/OnChat",b)
+			if e!=""{
+				//信息没有发送成功
+				m.onLeave(roomName,user.Userid)
+				err="The user has left the room"
+				return
+			}
 		}
+
+
 	}
 	result="say success"
 	return
 }
-
+/**
+用户 断开连接 广播离线消息
+ */
+func (m *Chat) onLeave(roomName string,Userid string){
+	userList:=m.chats[roomName]
+	if userList==nil{
+		return
+	}
+	delete(userList,Userid) //从列表中删除
+	rmsg:=map[string]string{}
+	rmsg["roomName"]=roomName
+	rmsg["user"]=Userid
+	b,_:=json.Marshal(rmsg)
+	for _,user:=range userList{
+		user.SendNR("Chat/OnLeave",b)
+	}
+}
 
