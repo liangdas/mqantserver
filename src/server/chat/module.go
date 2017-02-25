@@ -18,6 +18,7 @@ var Module = func() (module.Module){
 type Chat struct {
 	app	module.App
 	server *module.Server
+	listener *Listener
 	chats  map[string]map[string]*gate.Session
 }
 func (m *Chat) GetType()(string){
@@ -38,9 +39,18 @@ func (m *Chat) OnInit(app module.App,settings *conf.ModuleSettings) {
 
 	//创建一个远程调用的RPC
 	m.GetServer().OnInit(app,settings)
+
+	//注册一个rpc事件监听器,可以用来统计rpc调用的异常,执行时长等状态
+	m.listener=new(Listener)
+	m.listener.moduleType=m.GetType()
+	m.listener.serverId=settings.Id
+	m.listener.server=m.GetServer().GetRPCServer()
+	m.GetServer().GetRPCServer().SetListener(m.listener)
+
 	//注册远程调用的函数
 	m.GetServer().RegisterGO("HD_JoinChat",m.joinChat) //我们约定所有对客户端的请求都以Handler_开头
 	m.GetServer().RegisterGO("HD_Say",m.say) //我们约定所有对客户端的请求都以Handler_开头
+
 
 }
 

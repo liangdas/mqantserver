@@ -140,7 +140,7 @@ window.mqant.prototype = {
         function onMessageArrived(message) {
             var callback=self.waiting_queue.find(message.destinationName)
             if(callback!=null){
-                //有等待消息的callback
+                //有等待消息的callback 还缺一个信息超时的处理机制
                 var h=message.destinationName.split("/")
                 if(h.length>2){
                     //这个topic存在msgid 那么这个回调只使用一次
