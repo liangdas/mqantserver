@@ -55,6 +55,7 @@ type Rabbitmq struct {
 type ModuleSettings struct {
 	Id 		string
 	Host 		string
+	Group 		string
 	Settings 	map[string]interface{}
 	Rabbitmq 	*Rabbitmq
 }
