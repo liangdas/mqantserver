@@ -49,15 +49,16 @@ go install client
 
 #Demo演示说明
 	1. 启动服务器
-	2. 启动网页客户端	(默认房间abc 用户名 liangdas)
-	3. 启动python客户端 (默认房间abc 用户名 有用户输入)
+	2. 启动网页客户端	(默认房间名,用户名)
 	4. 登陆成功后就可以聊天了
 
->mqtt_chat_client.py启动后会提醒输入用户名，而网页版本的客户端进入以后直接使用"liangdas"作为用户名,因此如果想只使用网页版本客户端演示通信的话客户修改一下用户名,防止重名
 
 #项目目录结构
 https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到的第三方库,聊天Demo服务端,聊天代码客户端代码
 
+	bin		
+		|-conf/server.conf			服务端配置文件
+		|-public						web客户端静态文件
 	src
 		|-client
 			|-mqtt_chat_client.py 聊天客户端 Python版本
