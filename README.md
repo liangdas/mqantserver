@@ -61,7 +61,7 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 		|-public						web客户端静态文件
 	src
 		|-client
-			|-mqtt_chat_client.py 聊天客户端 Python版本
+			|-mqtt_chat_client.py 	聊天客户端 Python版本
 			|-webclient.go			聊天客户端网页版本
 		|-github.com                需要执行 go get 命令拉取
 			|-astaxie.beego框架 		webclient.go用到了
@@ -69,9 +69,10 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 			|-liangdas.mqant			mqant框架代码
 			|-streadway.amqp			rabbitmq通信框架
 		|-server						聊天服务器Demo
+			|-gate						网关模块
 			|-chat						聊天模块
 			|-conf						系统配置文件
-			|-login					登陆模块
+			|-login						登陆模块
 			|-main.go					服务器启动入口
 
 
