@@ -1,14 +1,15 @@
 package main
 import (
 	"github.com/liangdas/mqant/conf"
-	"github.com/liangdas/mqant/gate"
 	"github.com/liangdas/mqant"
 	"server/chat"
 	"server/login"
+	"server/gate"
 	"os"
 	"path/filepath"
 	"os/exec"
 	"fmt"
+
 )
 //func ChatRoute( app module.App,moduleType string,serverId string,Type string) (*module.ServerSession){
 //	//演示多个服务路由 默认使用第一个Server

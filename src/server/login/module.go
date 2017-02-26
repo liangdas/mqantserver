@@ -14,23 +14,16 @@ var Module = func() (module.Module){
 }
 
 type Login struct {
-	app	module.App
-	server *module.Server
+	module.BaseModule
 }
 func (m *Login) GetType()(string){
 	//很关键,需要与配置文件中的Module配置对应
 	return "Login"
 }
-func (m *Login) GetServer() (*module.Server){
-	if m.server==nil{
-		m.server = new(module.Server)
-	}
-	return m.server
-}
 
 func (m *Login) OnInit(app module.App,settings *conf.ModuleSettings) {
-	m.app=app
-	m.GetServer().OnInit(app,settings)
+	m.BaseModule.OnInit(m,app,settings)
+
 	m.GetServer().RegisterGO("HD_Login",m.login) //我们约定所有对客户端的请求都以Handler_开头
 	m.GetServer().RegisterGO("getRand",m.getRand) //演示后台模块间的rpc调用
 }
@@ -51,7 +44,7 @@ func (m *Login) login(s map[string]interface{},msg map[string]interface{})(resul
 	userName:=msg["userName"].(string)
 	//passWord:=msg["passWord"].(string)
 
-	session:=gate.NewSession(m.app,s)
+	session:=gate.NewSession(m.App,s)
 	err=session.Bind(userName)
 	if err!=""{
 		return

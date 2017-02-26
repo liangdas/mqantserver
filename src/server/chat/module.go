@@ -16,30 +16,21 @@ var Module = func() (module.Module){
 
 
 type Chat struct {
-	app	module.App
-	server *module.Server
-	listener *Listener
-	chats  map[string]map[string]*gate.Session
+	module.BaseModule
+	listener 	*Listener
+	chats  		map[string]map[string]*gate.Session
 }
 func (m *Chat) GetType()(string){
 	//很关键,需要与配置文件中的Module配置对应
 	return "Chat"
 }
-func (m *Chat) GetServer() (*module.Server){
-	if m.server==nil{
-		m.server = new(module.Server)
-	}
-	return m.server
-}
 
 func (m *Chat) OnInit(app module.App,settings *conf.ModuleSettings) {
 	//初始化模块
-	m.app=app
+	m.BaseModule.OnInit(m,app,settings)
+
+
 	m.chats=map[string]map[string]*gate.Session{}
-
-	//创建一个远程调用的RPC
-	m.GetServer().OnInit(app,settings)
-
 	//注册一个rpc事件监听器,可以用来统计rpc调用的异常,执行时长等状态
 	m.listener=new(Listener)
 	m.listener.moduleType=m.GetType()
@@ -60,16 +51,17 @@ func (m *Chat) Run(closeSig chan bool) {
 
 func (m *Chat) OnDestroy() {
 	//注销模块
-	//一定别忘了关闭RPC
-	m.GetServer().OnDestroy()
+	//一定别忘了BaseModule.OnDestroy()
+	m.BaseModule.OnDestroy()
 }
+
 
 func (m *Chat) joinChat(s map[string]interface{},msg map[string]interface{})(result map[string]interface{},err string) {
 	if msg["roomName"]==""{
 		err="roomName cannot be nil"
 		return
 	}
-	session:=gate.NewSession(m.app,s)
+	session:=gate.NewSession(m.App,s)
 	log.Debug("session %v",session.ExportMap())
 	if session.Userid==""{
 		err="Not Logined"
@@ -77,7 +69,7 @@ func (m *Chat) joinChat(s map[string]interface{},msg map[string]interface{})(res
 	}
 	roomName:=msg["roomName"].(string)
 
-	r,_:=m.app.RpcInvoke("Login","getRand",roomName)
+	r,_:=m.RpcInvoke("Login","getRand",roomName)
 
 	log.Debug("演示模块间RPC调用 :",r)
 
@@ -130,7 +122,7 @@ func (m *Chat) say(s map[string]interface{},msg map[string]interface{})(result s
 		err="roomName or say cannot be nil"
 		return
 	}
-	session:=gate.NewSession(m.app,s)
+	session:=gate.NewSession(m.App,s)
 	if session.Userid==""{
 		err="Not Logined"
 		return
