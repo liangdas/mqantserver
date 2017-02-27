@@ -15,7 +15,7 @@ var Module = func() (module.Module){
 }
 
 type Gate struct {
-	gate.Gate
+	gate.Gate	//继承
 }
 func (gate *Gate) GetType()(string){
 	//很关键,需要与配置文件中的Module配置对应
@@ -23,7 +23,7 @@ func (gate *Gate) GetType()(string){
 }
 
 func (gate *Gate) OnInit(app module.App,settings *conf.ModuleSettings) {
-	//注意这里一定要用 gate.Gate 而不是 gate.BaseModule
+	//注意这里一定要用 gate.Gate 而不是 module.BaseModule
 	gate.Gate.OnInit(gate,app,settings)
 	gate.Gate.SetStorageHandler(gate)	//设置持久化处理器
 }
