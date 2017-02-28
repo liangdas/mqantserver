@@ -4,6 +4,7 @@ bin/server
 bin/client
 src/github.com/robertkrimen
 src/gopkg.in
+src/github.com/quick-know-master
 pkg
 *.o
 *.a

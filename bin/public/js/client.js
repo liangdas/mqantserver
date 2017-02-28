@@ -205,9 +205,10 @@ $(document).ready(function() {
 			return false;
 		}
 		mqant.init({
-			host: "127.0.0.1",
+			host: "172.16.4.33",
 			port: 3653,
 			client_id: "111",
+			useSSL:false,
 		    onSuccess:function() {
 				console.log("onConnected");
 				var topic = "Login/HD_Login";

@@ -5,6 +5,7 @@ Created on 17/2/16.
 '''
 import paho.mqtt.client as mqtt
 import json
+import ssl
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code %d"%rc)
@@ -33,7 +34,9 @@ if __name__ == '__main__':
     client.on_message = on_message
     #client.on_log=mylog
     HOST = "127.0.0.1"
-
+    # client.tls_set(ca_certs=None, certfile=None, keyfile=None, cert_reqs=ssl.CERT_REQUIRED,
+    #         tls_version=ssl.PROTOCOL_TLSv1, ciphers=None)
+    client.tls_insecure_set(True)
     client.connect(HOST, 3563, 60)
     #client.loop_forever()
 

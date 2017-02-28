@@ -127,11 +127,13 @@ window.mqant.prototype = {
                     console.log("连接已断开");
                 }
         }
+        prop["useSSL"]=prop["useSSL"]||false
         this.client = new Paho.MQTT.Client(prop["host"], prop["port"], prop["client_id"]);
         this.client.connect({
             onSuccess: prop["onSuccess"],
             onFailure: prop["onFailure"],
             mqttVersion: 3,
+            useSSL:prop["useSSL"],
             cleanSession: true,
         });//连接服务器并注册连接成功处理事件
         this.client.onConnectionLost =prop["onConnectionLost"] ;//注册连接断开处理事件

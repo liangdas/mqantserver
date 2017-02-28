@@ -36,5 +36,5 @@ func main() {
 		}
 	}
 	beego.SetStaticPath("/mqant",f.Name())
-	beego.Run("127.0.0.1:8080")
+	beego.Run("0.0.0.0:8080")
 }
