@@ -5,7 +5,6 @@
 
 设置 mqantserver 目录到 GOPATH 后获取相关依赖：
 
-	go get github.com/astaxie/beego
 	go get github.com/gorilla/websocket
 	go get github.com/streadway/amqp
 	go get github.com/liangdas/mqant
@@ -58,20 +57,19 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 
 	bin		
 		|-conf/server.conf			服务端配置文件
-		|-public						web客户端静态文件
+		|-public					web客户端静态文件
+		|-console                   控制台web静态文件(还未完成)
 	src
 		|-client
 			|-mqtt_chat_client.py 	聊天客户端 Python版本
 			|-webclient.go			聊天客户端网页版本
 		|-github.com                需要执行 go get 命令拉取
-			|-astaxie.beego框架 		webclient.go用到了
 			|-gorilla.websocket		websocket框架
 			|-liangdas.mqant			mqant框架代码
 			|-streadway.amqp			rabbitmq通信框架
 		|-server						聊天服务器Demo
 			|-gate						网关模块
 			|-chat						聊天模块
-			|-conf						系统配置文件
 			|-login						登陆模块
 			|-main.go					服务器启动入口
 

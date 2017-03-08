@@ -1,40 +1,43 @@
 package main
 
 import (
-	"github.com/astaxie/beego"
 	"os"
+	"os/signal"
 	"fmt"
 	"path/filepath"
 	"os/exec"
+	"net"
+	"net/http"
 )
-
-type MainController struct {
-	beego.Controller
-}
-
-
-func (this *MainController) Get() {
-	this.Ctx.WriteString("hello world")
-}
 
 
 
 func main() {
-	beego.Router("/", &MainController{})
 	workdir,_:=os.Getwd()
 	file, _ := exec.LookPath(os.Args[0])
 	ApplicationPath, _ := filepath.Abs(file)
 	ApplicationDir, _ := filepath.Split(ApplicationPath)
-	confPath:= fmt.Sprintf("%s/public",ApplicationDir)
+	confPath:= fmt.Sprintf("%spublic",ApplicationDir)
 	f, err := os.Open(confPath)
 	if err!=nil{
 		//如果执行文件目录中找不到的话就用工作目录试试
-		workDirconfPath:= fmt.Sprintf("%s/public",workdir)
+		workDirconfPath:= fmt.Sprintf("%spublic",workdir)
 		f, err = os.Open(workDirconfPath)
 		if err!=nil{
 			panic(err)
 		}
 	}
-	beego.SetStaticPath("/mqant",f.Name())
-	beego.Run("0.0.0.0:8080")
+
+
+	listener, _ := net.Listen("tcp", "0.0.0.0:8080")
+	fmt.Println("web client start :0.0.0.0:8080")
+	go func() {
+		http.Handle("/mqant/",http.StripPrefix("/mqant/", http.FileServer(http.Dir(f.Name()))))
+		http.Serve(listener, nil)
+	}()
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, os.Kill)
+	<-c
+	fmt.Println("web client Shutting down...")
+	listener.Close()
 }

@@ -32,11 +32,11 @@ func (m *Chat) OnInit(app module.App,settings *conf.ModuleSettings) {
 
 	m.chats=map[string]map[string]*gate.Session{}
 	//注册一个rpc事件监听器,可以用来统计rpc调用的异常,执行时长等状态
-	m.listener=new(Listener)
-	m.listener.moduleType=m.GetType()
-	m.listener.serverId=settings.Id
-	m.listener.server=m.GetServer().GetRPCServer()
-	m.GetServer().GetRPCServer().SetListener(m.listener)
+	//m.listener=new(Listener)
+	//m.listener.moduleType=m.GetType()
+	//m.listener.serverId=settings.Id
+	//m.listener.server=m.GetServer().GetRPCServer()
+	//m.SetListener(m.listener)
 
 	//注册远程调用的函数
 	m.GetServer().RegisterGO("HD_JoinChat",m.joinChat) //我们约定所有对客户端的请求都以Handler_开头
@@ -62,7 +62,7 @@ func (m *Chat) joinChat(s map[string]interface{},msg map[string]interface{})(res
 		return
 	}
 	session:=gate.NewSession(m.App,s)
-	log.Debug("session %v",session.ExportMap())
+	log.Info("session %v",session.ExportMap())
 	if session.Userid==""{
 		err="Not Logined"
 		return
@@ -71,7 +71,7 @@ func (m *Chat) joinChat(s map[string]interface{},msg map[string]interface{})(res
 
 	r,_:=m.RpcInvoke("Login","getRand",roomName)
 
-	log.Debug("演示模块间RPC调用 :",r)
+	log.Info("演示模块间RPC调用 :",r)
 
 	userList:=m.chats[roomName]
 	if userList==nil{

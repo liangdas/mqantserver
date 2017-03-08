@@ -33,14 +33,14 @@ func (gate *Gate) OnInit(app module.App,settings *conf.ModuleSettings) {
 	Session Bind Userid以后每次设置 settings都会调用一次Storage
 	 */
 func (gate *Gate) Storage(Userid string,settings map[string]interface{})(err error){
-	log.Debug("对Session持久化")
+	log.Info("需要处理对Session的持久化")
 	return nil
 }
 /**
 强制删除Session信息
  */
 func (gate *Gate) Delete(Userid string)(err error){
-	log.Debug("删除Session持久化数据")
+	log.Info("需要删除Session持久化数据")
 	return nil
 }
 /**
@@ -48,13 +48,13 @@ func (gate *Gate) Delete(Userid string)(err error){
 用户登录以后会调用Query获取最新信息
  */
 func (gate *Gate) Query(Userid string)(settings map[string]interface{},err error){
-	log.Debug("查询Session持久化数据")
+	log.Info("查询Session持久化数据")
 	return nil,fmt.Errorf("no redis")
 }
 /**
-用户心跳,一般用户在线时1s发送一次
+用户心跳,一般用户在线时60s发送一次
 可以用来延长Session信息过期时间
  */
 func (gate *Gate) Heartbeat(Userid string){
-	log.Debug("用户在线心跳包")
+	log.Info("用户在线的心跳包")
 }

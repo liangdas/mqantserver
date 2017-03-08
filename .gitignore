@@ -1,5 +1,7 @@
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 .idea
+bin/logs
+bin/sslkey
 bin/server
 bin/client
 src/github.com/robertkrimen

@@ -205,7 +205,7 @@ $(document).ready(function() {
 			return false;
 		}
 		mqant.init({
-			host: "localhost",
+			host: window.location.hostname,
 			port: 3653,
 			client_id: "111",
 			useSSL:false,
