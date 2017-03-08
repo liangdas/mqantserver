@@ -21,7 +21,10 @@ func (gate *Gate) GetType()(string){
 	//很关键,需要与配置文件中的Module配置对应
 	return "Gate"
 }
-
+func (gate *Gate) Version()(string){
+	//可以在监控时了解代码版本
+	return "1.0.0"
+}
 func (gate *Gate) OnInit(app module.App,settings *conf.ModuleSettings) {
 	//注意这里一定要用 gate.Gate 而不是 module.BaseModule
 	gate.Gate.OnInit(gate,app,settings)

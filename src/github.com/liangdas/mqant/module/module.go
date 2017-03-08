@@ -68,6 +68,7 @@ func (c *ServerSession) CallNR(_func string,params ...interface{})(err error)  {
 
 
 type Module interface {
+	Version()(string)	//模块版本
 	GetType()(string)	//模块类型
 	OnInit(app App,settings *conf.ModuleSettings)
 	OnDestroy()
@@ -223,7 +224,7 @@ func (mer *ModuleManager)ReportStatistics(args interface{}){
 				servers := mer.app.GetServersByType("Master")
 				if len(servers) == 1 {
 					b, _ := value.GetStatistical()
-					_,err:=servers[0].Call("ReportForm", value.GetType(), m.settings.ProcessID, m.settings.Id, b, value.GetExecuting())
+					_,err:=servers[0].Call("ReportForm", value.GetType(), m.settings.ProcessID, m.settings.Id,value.Version(), b, value.GetExecuting())
 					if err!=""{
 						log.Warning("Report To Master error :",err)
 					}

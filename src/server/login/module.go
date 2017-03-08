@@ -20,7 +20,10 @@ func (m *Login) GetType()(string){
 	//很关键,需要与配置文件中的Module配置对应
 	return "Login"
 }
-
+func (m *Login) Version()(string){
+	//可以在监控时了解代码版本
+	return "1.0.0"
+}
 func (m *Login) OnInit(app module.App,settings *conf.ModuleSettings) {
 	m.BaseModule.OnInit(m,app,settings)
 

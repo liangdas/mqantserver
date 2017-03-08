@@ -62,6 +62,7 @@ func NewErrorResponse(Code string,Error string) (*HttpResponse) {
 type ModuleReport struct {
 	ModuleType	string
 	Id		string
+	Version		string
 	ProcessID	string
 	Executing	int64	//当前正在执行的函数数量,暂态的,下一次上报时刷新
 	ReportForm	map[string]*StatisticalMethod //运行状态报表
@@ -78,6 +79,9 @@ type Master struct {
 func (m *Master) GetType()(string){
 	//很关键,需要与配置文件中的Module配置对应
 	return "Master"
+}
+func (m *Master) Version()(string){
+	return "1.0.0"
 }
 
 func (m *Master) OnInit(app App,settings *conf.ModuleSettings) {
@@ -225,6 +229,7 @@ func (m *Master) ModuleList(w http.ResponseWriter, req *http.Request) {
 			"ProcessID":module.ProcessID,
 			"ModuleType":module.ModuleType,
 			"ModuleID":module.Id,
+			"Version":module.Version,
 			"Executing":module.Executing,
 			"ReportForm":module.ReportForm,
 		})
@@ -352,7 +357,7 @@ func (m *Master) stopProcess(s map[string]interface{},msg map[string]interface{}
 /**
 模块汇报
  */
-func (m *Master) ReportForm(moduleType string,ProcessID string,Id string,statistics string,Executing int64)(result string,err string){
+func (m *Master) ReportForm(moduleType string,ProcessID string,Id string,Version string,statistics string,Executing int64)(result string,err string){
 	sm:=LoadStatisticalMethod(statistics)
 	if sm==nil{
 		err="JSON format is not correct"
@@ -361,10 +366,13 @@ func (m *Master) ReportForm(moduleType string,ProcessID string,Id string,statist
 	if reportForm,ok:=m.ModuleReports[Id];ok{
 		reportForm.ProcessID=ProcessID
 		reportForm.ModuleType=moduleType
+		reportForm.Executing=Executing
+		reportForm.Version=Version
 		reportForm.ReportForm=sm
 	}else{
 		reportForm:=&ModuleReport{
 			Id:Id,
+			Version:Version,
 			ProcessID:ProcessID,
 			ModuleType:moduleType,
 			Executing:Executing,

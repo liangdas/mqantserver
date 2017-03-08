@@ -24,7 +24,10 @@ func (m *Chat) GetType()(string){
 	//很关键,需要与配置文件中的Module配置对应
 	return "Chat"
 }
-
+func (m *Chat) Version()(string){
+	//可以在监控时了解代码版本
+	return "1.0.0"
+}
 func (m *Chat) OnInit(app module.App,settings *conf.ModuleSettings) {
 	//初始化模块
 	m.BaseModule.OnInit(m,app,settings)
