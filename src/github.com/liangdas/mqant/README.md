@@ -15,34 +15,23 @@ QQ交流群 :463735103
 
  快速上手:
  
- [https://github.com/liangdas/mqantserver](https://github.com/liangdas/mqantserver)
+ [mqant wiki](https://github.com/liangdas/mqant/wiki)
+
+ [全平台聊天Demo](https://github.com/liangdas/mqantserver)
+ 
+ [在线Demo演示（随时可能关闭）](https://www.h5link.com/mqant/index.html)
  
 
 #	框架架构
-mqant采用的是模块化的架构思想,每一个服务会独立成单独的模块,模块之间采用标准的RPC通讯
-	
-##mqant rpc
+[mqant的设计动机](https://github.com/liangdas/mqant/wiki/mqant%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8A%A8%E6%9C%BA)
 
-mqant rpc底层使用了本地管道和远程rabbitmq消息队列进行消息传到,rpc会根据实际情况选择适当的通信通道以提升性能,也正是基于此mqant可以支持分布式部署
-
-##网络通信以及MQTT
-
-mqant网络通信目前支持TCP和websocket,通信协议采用的是MQTT,因此mqant可以采用MQTT现有的客户端代码来支持 Android,IOS,Html5,嵌入式设备等等
-
-##网关模块
-mqant内置一个网关模块(Gate),这个网关模块负责TCP,websocket连接,MQTT协议解析,消息路由,以及一个简单的Session
+[框架架构](https://github.com/liangdas/mqant/wiki/mqant%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0)
 
 ##下一步计划
-1. 插件系统
-2. 日志模块
-3. 讨论社区
-4. 分布式架构管理工具
-5. 可伸缩服务器部署
-。。。
-
-##技术交流
-目前框架还处于Demo阶段,希望能有更多的大牛来参与框架的完善,一起将框架做的更好用
-mqant技术交流群:QQ 463735103
+1. 讨论社区
+2. 分布式架构管理模块(Master)
+3. 做一下多进程内存共享方面的实验性研究
+4. 。。。
 
 ##贡献者
 
@@ -51,3 +40,16 @@ mqant技术交流群:QQ 463735103
 bug请直接通过issue提交
 
 凡提交代码和建议, bug的童鞋, 均会在下列贡献者名单者出现
+
+1. [xlionet](https://github.com/xlionet)
+
+
+
+##版本日志
+###[v1.1.0新特性](https://github.com/liangdas/mqant/wiki/v1.1.0)
+
+		
+###v1.0.0
+
+	mqant第一个版本
+	
