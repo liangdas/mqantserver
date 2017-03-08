@@ -21,7 +21,7 @@ func main() {
 	f, err := os.Open(confPath)
 	if err!=nil{
 		//如果执行文件目录中找不到的话就用工作目录试试
-		workDirconfPath:= fmt.Sprintf("%spublic",workdir)
+		workDirconfPath:= fmt.Sprintf("%s/public",workdir)
 		f, err = os.Open(workDirconfPath)
 		if err!=nil{
 			panic(err)

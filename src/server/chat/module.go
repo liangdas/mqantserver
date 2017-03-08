@@ -40,7 +40,7 @@ func (m *Chat) OnInit(app module.App,settings *conf.ModuleSettings) {
 	//m.listener.serverId=settings.Id
 	//m.listener.server=m.GetServer().GetRPCServer()
 	//m.SetListener(m.listener)
-
+	m.SetListener()
 	//注册远程调用的函数
 	m.GetServer().RegisterGO("HD_JoinChat",m.joinChat) //我们约定所有对客户端的请求都以Handler_开头
 	m.GetServer().RegisterGO("HD_Say",m.say) //我们约定所有对客户端的请求都以Handler_开头
