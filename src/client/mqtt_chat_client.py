@@ -9,7 +9,7 @@ import ssl
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code %d"%rc)
-    client.publish("Login/HD_Login/1", json.dumps({"userName": user, "passWord": "Hello,anyone!"}),qos=1,retain=False)
+    client.publish("Login/HD_Login/1", json.dumps({"userName": user, "passWord": "Hello,anyone!"}),qos=0,retain=False)
 
 
 
@@ -17,8 +17,8 @@ def on_message(client, userdata, msg):
     print ('---------------')
     print ("topic   :"+msg.topic)
     print ("payload :"+msg.payload)
-    #client.subscribe([("chat",2),("aaa",2)])
-    #client.unsubscribe(["chat"])
+    client.subscribe([("chat",2),("aaa",2)])
+    client.unsubscribe(["chat"])
     #client.publish("login/addUser", json.dumps({"user": user, "say": "Hello,anyone!"}),qos=2,retain=False)
     #print(msg.topic+":"+str(msg.payload.decode()))
     #print(msg.topic+":"+msg.payload.decode())
@@ -49,10 +49,10 @@ if __name__ == '__main__':
         s = raw_input("请先输入'join'加入房间,然后输入任意聊天字符:\n")
         if s:
             if s=="join":
-                client.publish("Chat/HD_JoinChat/2", json.dumps({"roomName": "mqant"}),qos=1,retain=False)
+                client.publish("Chat/HD_JoinChat/2", json.dumps({"roomName": "mqant"}),qos=0,retain=False)
             elif s=="start":
-                    client.publish("Master/HD_Start_Process/2", json.dumps({"ProcessID": "001"}),qos=1,retain=False)
+                    client.publish("Master/HD_Start_Process/2", json.dumps({"ProcessID": "001"}),qos=0,retain=False)
             elif s=="stop":
-                client.publish("Master/HD_Stop_Process/2", json.dumps({"ProcessID": "001"}),qos=1,retain=False)
+                client.publish("Master/HD_Stop_Process/2", json.dumps({"ProcessID": "001"}),qos=0,retain=False)
             else:
-                client.publish("Chat/HD_Say/2", json.dumps({"roomName": "mqant","from":user,"target":"*","content": s}),qos=1,retain=False)
+                client.publish("Chat/HD_Say/2", json.dumps({"roomName": "mqant","from":user,"target":"*","content": s}),qos=0,retain=False)

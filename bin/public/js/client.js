@@ -1,4 +1,4 @@
-var mqant=new window.mqant()
+var mqant=window.mqant
 var username;
 var users;
 var roomName;

@@ -110,9 +110,9 @@ hashmap.prototype = {
     }
 };
 
-window.mqant = function () {
+var mqant = function () {
 }
-window.mqant.prototype = {
+mqant.prototype = {
     constructor: window.mqant,
     curr_id: 0,
     client:null,
@@ -138,17 +138,17 @@ window.mqant.prototype = {
         });//连接服务器并注册连接成功处理事件
         this.client.onConnectionLost =prop["onConnectionLost"] ;//注册连接断开处理事件
         this.client.onMessageArrived = onMessageArrived;//注册消息接收处理事件
-        var self=this
+        var self=this;
         function onMessageArrived(message) {
-            var callback=self.waiting_queue.find(message.destinationName)
-            if(callback!=null){
+            var callback=self.waiting_queue.find(message.destinationName);
+            if(typeof(callback)!="undefined"){
                 //有等待消息的callback 还缺一个信息超时的处理机制
                 var h=message.destinationName.split("/")
                 if(h.length>2){
                     //这个topic存在msgid 那么这个回调只使用一次
                     self.waiting_queue.remove(message.destinationName)
                 }
-                callback(message)
+                callback(message);
             }
         }
     },
@@ -160,9 +160,9 @@ window.mqant.prototype = {
      */
     request:function(topic,msg,callback){
         this.curr_id=this.curr_id+1
-        var topic=topic+"/"+this.curr_id //给topic加一个msgid 这样服务器就会返回这次请求的结果,否则服务器不会返回结果
-        var payload=JSON.stringify(msg)
-        this.on(topic,callback)
+        var topic=topic+"/"+this.curr_id; //给topic加一个msgid 这样服务器就会返回这次请求的结果,否则服务器不会返回结果
+        var payload=JSON.stringify(msg);
+        this.on(topic,callback);
         this.client.send(topic,payload ,1);
     },
     /**
@@ -171,7 +171,7 @@ window.mqant.prototype = {
      * @param msg
      */
     requestNR:function(topic,msg){
-        var payload=JSON.stringify(msg)
+        var payload=JSON.stringify(msg);
         this.client.send(topic,payload ,1);
     },
     /**
@@ -181,9 +181,11 @@ window.mqant.prototype = {
      */
     on:function(topic,callback){
         //服务器不会返回结果
-        this.waiting_queue.add(topic,callback) //添加这条消息到等待队列
+        this.waiting_queue.add(topic,callback); //添加这条消息到等待队列
     }
 }
+
+window.mqant=new mqant();
 
 
 
