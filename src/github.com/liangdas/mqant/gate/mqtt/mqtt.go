@@ -439,7 +439,7 @@ func ReadPack(r *bufio.Reader) (pack *Pack, err error) {
 			err = fmt.Errorf("length error :%v", vlen)
 			break
 		}
-		if pack.GetQos()>0{
+		if pack.GetQos() > 0 {
 			// Read the msg id
 			pub.mid, err = readInt(r, 2)
 			if err != nil {
@@ -657,11 +657,11 @@ func DelayWritePack(pack *Pack, w *bufio.Writer) (err error) {
 	case PUBLISH:
 		// Publish the msg to the client
 		pub := pack.variable.(*Publish)
-		if pack.GetQos()>0{
+		if pack.GetQos() > 0 {
 			if err = writeFull(w, getRemainingLength(4+len([]byte(*pub.topic_name))+len(pub.msg))); err != nil {
 				return
 			}
-		}else{
+		} else {
 			if err = writeFull(w, getRemainingLength(2+len([]byte(*pub.topic_name))+len(pub.msg))); err != nil {
 				return
 			}
@@ -670,7 +670,7 @@ func DelayWritePack(pack *Pack, w *bufio.Writer) (err error) {
 		if err = writeString(w, pub.topic_name); err != nil {
 			return
 		}
-		if pack.GetQos()>0 {
+		if pack.GetQos() > 0 {
 			if err = writeInt(w, pub.mid, 2); err != nil {
 				return
 			}
