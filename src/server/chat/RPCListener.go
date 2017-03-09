@@ -19,16 +19,13 @@ import (
 )
 
 type Listener struct {
-	server     *mqrpc.RPCServer
-	moduleType string
-	serverId   string
 }
 
 func (l *Listener) OnTimeOut(fn string, Expired int64) {
-	log.Error("[%s]的请求(%s)超时了!", l.moduleType, fn)
+	log.Error("请求(%s)超时了!", fn)
 }
 func (l *Listener) OnError(fn string, params []interface{}, err error) {
-	log.Error("[%s]的请求(%s)出现异常 error(%s)!", l.moduleType, fn, err.Error())
+	log.Error("请求(%s)出现异常 error(%s)!", fn, err.Error())
 }
 
 /**
@@ -38,5 +35,5 @@ result		执行结果
 exec_time 	方法执行时间 单位为 Nano 纳秒  1000000纳秒等于1毫秒
 */
 func (l *Listener) OnComplete(fn string, params []interface{}, result *mqrpc.ResultInfo, exec_time int64) {
-	log.Error("[%s]的请求(%s) 执行时间为:[%d 微妙] 当前正在执行的请求数:[%d]!", l.moduleType, fn, exec_time/1000, l.server.GetExecuting())
+	log.Info("请求(%s) 执行时间为:[%d 微妙]!", fn, exec_time/1000)
 }

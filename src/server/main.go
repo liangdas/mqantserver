@@ -8,9 +8,9 @@ import (
 	"server/login"
 )
 
-//func ChatRoute( app module.App,moduleType string,serverId string,Type string) (*module.ServerSession){
+//func ChatRoute( app module.App,Type string,hash string) (*module.ServerSession){
 //	//演示多个服务路由 默认使用第一个Server
-//	log.Debug("Type:%s Id:%s 将要调用 type : %s",moduleType,serverId,Type)
+//	log.Debug("Hash:%s 将要调用 type : %s",hash,Type)
 //	servers:=app.GetServersByType(Type)
 //	if len(servers)==0{
 //		return nil

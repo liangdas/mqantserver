@@ -4,7 +4,7 @@ bin/logs
 bin/sslkey
 bin/server
 bin/client
-src/github.com/robertkrimen
+src/server/hitball
 src/gopkg.in
 src/github.com/quick-know-master
 pkg
