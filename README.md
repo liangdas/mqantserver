@@ -41,6 +41,7 @@ go install client
 
 访问地址为：http://127.0.0.1:8080/mqant/index.html
 
+小球碰撞游戏DEMO访问地址为：http://127.0.0.1:8080/hitball/index.html
 
 #启动python版本客户端
 
@@ -49,7 +50,9 @@ go install client
 #Demo演示说明
 	1. 启动服务器
 	2. 启动网页客户端	(默认房间名,用户名)
-	4. 登陆成功后就可以聊天了
+	3. 登陆成功后就可以聊天了
+
+	
 
 
 #项目目录结构
@@ -58,6 +61,7 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 	bin		
 		|-conf/server.conf			服务端配置文件
 		|-public					web客户端静态文件
+		|-hitball					小球碰撞游戏DEMO客户端文件
 		|-console                   控制台web静态文件(还未完成)
 	src
 		|-client
@@ -67,10 +71,12 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 			|-gorilla.websocket		websocket框架
 			|-liangdas.mqant			mqant框架代码
 			|-streadway.amqp			rabbitmq通信框架
+		|-hitball						小球碰撞游戏DEMO客户端源码
 		|-server						聊天服务器Demo
 			|-gate						网关模块
 			|-chat						聊天模块
 			|-login						登陆模块
+			|-hitball					小球碰撞游戏模块
 			|-main.go					服务器启动入口
 
 
