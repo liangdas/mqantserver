@@ -1,0 +1,39 @@
+{
+  "name": "hitball",
+  "version": "0.0.1",
+  "private": false,
+  "dependencies": {
+    "babelify": "^6.1.0",
+    "babel-preset-es2015": "^6.18.0"
+  },
+  "scripts": {
+    "webpack": "webpack"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.1",
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-polyfill": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babelify": "^6.4.0",
+    "json-loader": "^0.5.4",
+    "script-loader": "0.7.0",
+    "webpack": "^1.14.0",
+    "phaser":"2.6.2"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
+    ]
+  }
+}

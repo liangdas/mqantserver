@@ -60,7 +60,7 @@ func (m *Login) login(s map[string]interface{}, msg map[string]interface{}) (res
 	return fmt.Sprintf("login success %s", userName), ""
 }
 
-func (m *Login) getRand(userName string) (result string, err string) {
+func (m *Login) getRand(by []byte,mp map[string]interface{},f float64,i int,b bool) (result string, err string) {
 	//演示后台模块间的rpc调用
-	return fmt.Sprintf("My is Login Module %s", userName), ""
+	return fmt.Sprintf("My is Login Module %s", by,mp,f,i,b), ""
 }
