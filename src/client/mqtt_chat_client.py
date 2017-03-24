@@ -32,11 +32,11 @@ if __name__ == '__main__':
     client.username_pw_set("admin", "password")  # 必须设置，否则会返回「Connected with result code 4」
     client.on_connect = on_connect
     client.on_message = on_message
-    #client.on_log=mylog
-    HOST = "127.0.0.1"
-    # client.tls_set(ca_certs=None, certfile=None, keyfile=None, cert_reqs=ssl.CERT_REQUIRED,
-    #         tls_version=ssl.PROTOCOL_TLSv1, ciphers=None)
-    client.tls_insecure_set(True)
+    #链接测试服务器 需要用tls请求 python  tls功能比较弱。
+    # 需要一个证书，这里使用的这个网站提供的证书https://curl.haxx.se/docs/caextract.html
+    HOST = "h5link.com"
+    client.tls_set(ca_certs="caextract.pem", certfile=None, keyfile=None, cert_reqs=ssl.CERT_REQUIRED,
+                   tls_version=ssl.PROTOCOL_TLSv1, ciphers=None)
     client.connect(HOST, 3563, 60)
     #client.loop_forever()
 

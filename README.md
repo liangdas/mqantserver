@@ -1,4 +1,4 @@
-#快速使用
+# 快速使用
 获取 mqantserver：
 
 	git clone https://github.com/liangdas/mqantserver
@@ -32,7 +32,7 @@ go install server
 	[debug  ] RPCClient close success type(Chat) id(127.0.0.1:Chat)
 	[release] mqant closing down (signal: interrupt)
 
-#启动网页版本客户端
+# 启动网页版本客户端
 编译 mqantserver：
 
 go install client
@@ -43,11 +43,11 @@ go install client
 
 小球碰撞游戏DEMO访问地址为：http://127.0.0.1:8080/hitball/index.html
 
-#启动python版本客户端
+# 启动python版本客户端
 
 执行src/client/mqtt_chat_client.py即可 需要安装paho.mqtt库,请自行百度
 
-#Demo演示说明
+# Demo演示说明
 
 	1. 启动服务器
 	2. 启动网页客户端	(默认房间名,用户名)
@@ -56,7 +56,7 @@ go install client
 	
 
 
-#项目目录结构
+# 项目目录结构
 
 https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到的第三方库,聊天Demo服务端,聊天代码客户端代码
 
@@ -82,5 +82,18 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 			|-main.go					服务器启动入口
 
 
+# 客户端测试
+如果你需要测试其他语言的mqtt客户端，可以使用mqant提供的测试接口来测试
+### tcp mqtt :
+	host: h5link.com
+	port: 3563
+	protocol=mqtt.MQTTv31
+	tcp:  tls/TLSv1
+	
+	如果客户端需要ca证书可以使用下面这个网站提供的
+	https://curl.haxx.se/docs/caextract.html
 
+### websocket mqtt :
+	host: wss://www.h5link.com:3653/mqant
+	protocol=mqtt.MQTTv31
 
