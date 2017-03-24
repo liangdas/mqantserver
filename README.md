@@ -82,7 +82,7 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 			|-main.go					服务器启动入口
 
 
-# 客户端测试
+# 客户端快速测试
 如果你需要测试其他语言的mqtt客户端，可以使用mqant提供的测试接口来测试
 ### tcp mqtt :
 	host: h5link.com
@@ -96,4 +96,35 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 ### websocket mqtt :
 	host: wss://www.h5link.com:3653/mqant
 	protocol=mqtt.MQTTv31
+	
+###测试协议
 
+1. 登陆接口
+
+		向服务器publish一条登陆消息
+	
+		topic:		Login/HD_Login/{msgid}
+		
+		message:	{"userName": "liangdas", "passWord": "Hello,anyone!"}
+	
+	如果topic添加了msgid,则服务器会返回一条回复消息
+
+2. 加入聊天室
+
+		向服务器publish一条登陆消息
+	
+		topic:		Chat/HD_JoinChat/{msgid}
+		
+		message:	{"roomName": "mqant"}
+	
+	如果topic添加了msgid,则服务器会返回一条回复消息
+
+3. 发送一条聊天
+
+		向服务器publish一条登陆消息
+	
+		topic:		Chat/HD_Say/{msgid}
+		
+		message:	{"roomName": "mqant","from":"liangdas","target":"*","content": "大家好!!"}
+	
+	如果topic添加了msgid,则服务器会返回一条回复消息
