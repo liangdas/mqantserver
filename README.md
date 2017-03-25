@@ -97,7 +97,7 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 	host: wss://www.h5link.com:3653/mqant
 	protocol=mqtt.MQTTv31
 	
-###测试协议
+### 测试协议
 
 1. 登陆接口
 
@@ -117,7 +117,11 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 		
 		message:	{"roomName": "mqant"}
 	
-	如果topic添加了msgid,则服务器会返回一条回复消息
+		服务器会广播消息给所有聊天室成员
+		
+		topic:		Chat/OnJoin
+			
+		message:	{"users": [“liangdas”]}
 
 3. 发送一条聊天
 
@@ -127,4 +131,8 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 		
 		message:	{"roomName": "mqant","from":"liangdas","target":"*","content": "大家好!!"}
 	
-	如果topic添加了msgid,则服务器会返回一条回复消息
+		服务器会广播消息给所有聊天室成员
+		
+		topic:		Chat/OnChat
+			
+		message:	{"roomName": "mqant","from":"liangdas","target":"*","msg":"大家好!!"}
