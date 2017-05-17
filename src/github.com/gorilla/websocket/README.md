@@ -36,7 +36,7 @@ subdirectory](https://github.com/gorilla/websocket/tree/master/examples/autobahn
 <tr>
 <th></th>
 <th><a href="http://godoc.org/github.com/gorilla/websocket">github.com/gorilla</a></th>
-<th><a href="http://godoc.org/golang.org/x/net/websocket">golang.org/x/net</a></th>
+<th><a href="http://godoc.org/github.com/liangdas/mqant/utils/net/websocket">github.com/liangdas/mqant/utils/net</a></th>
 </tr>
 <tr>
 <tr><td colspan="3"><a href="http://tools.ietf.org/html/rfc6455">RFC 6455</a> Features</td></tr>
@@ -55,7 +55,7 @@ Notes:
 
 1. Large messages are fragmented in [Chrome's new WebSocket implementation](http://www.ietf.org/mail-archive/web/hybi/current/msg10503.html).
 2. The application can get the type of a received data message by implementing
-   a [Codec marshal](http://godoc.org/golang.org/x/net/websocket#Codec.Marshal)
+   a [Codec marshal](http://godoc.org/github.com/liangdas/mqant/utils/net/websocket#Codec.Marshal)
    function.
 3. The go.net io.Reader and io.Writer operate across WebSocket frame boundaries.
   Read returns when the input buffer is full or a frame boundary is
