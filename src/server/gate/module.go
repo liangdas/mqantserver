@@ -38,7 +38,7 @@ func (gate *Gate) OnInit(app module.App, settings *conf.ModuleSettings) {
 存储用户的Session信息
 Session Bind Userid以后每次设置 settings都会调用一次Storage
 */
-func (gate *Gate) Storage(Userid string, settings map[string]interface{}) (err error) {
+func (gate *Gate) Storage(Userid string, settings map[string]string) (err error) {
 	log.Info("需要处理对Session的持久化")
 	return nil
 }
@@ -55,7 +55,7 @@ func (gate *Gate) Delete(Userid string) (err error) {
 获取用户Session信息
 用户登录以后会调用Query获取最新信息
 */
-func (gate *Gate) Query(Userid string) (settings map[string]interface{}, err error) {
+func (gate *Gate) Query(Userid string) (settings map[string]string, err error) {
 	log.Info("查询Session持久化数据")
 	return nil, fmt.Errorf("no redis")
 }

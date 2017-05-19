@@ -9,6 +9,7 @@ import (
 	"github.com/liangdas/mqant/gate"
 	"github.com/liangdas/mqant/log"
 	"github.com/liangdas/mqant/module"
+	"github.com/liangdas/mqant/module/base"
 )
 
 var Module = func() module.Module {
@@ -17,9 +18,10 @@ var Module = func() module.Module {
 }
 
 type Hitball struct {
-	module.BaseModule
+	basemodule.BaseModule
+	room	*Room
 	proTime int64
-	table *table
+	table *Table
 }
 
 func (self *Hitball) GetType() string {
@@ -32,12 +34,13 @@ func (self *Hitball) Version() string {
 }
 func (self *Hitball) OnInit(app module.App, settings *conf.ModuleSettings) {
 	self.BaseModule.OnInit(self, app, settings)
-	self.table=NewTable()
+	self.room=NewRoom(self)
+	self.table,_=self.room.GetEmptyTable()
 	//self.SetListener(new(chat.Listener))
 	self.GetServer().RegisterGO("HD_Move", self.move)
 	self.GetServer().RegisterGO("HD_Join", self.join)
 	self.GetServer().RegisterGO("HD_Fire", self.fire)
-	self.GetServer().RegisterGO("HD_EatCoin", self.EatCoin)
+	self.GetServer().RegisterGO("HD_EatCoin", self.eatCoin)
 }
 
 func (self *Hitball) Run(closeSig chan bool) {
@@ -49,45 +52,48 @@ func (self *Hitball) OnDestroy() {
 	self.GetServer().OnDestroy()
 }
 
-func (self *Hitball)join(s map[string]interface{}, msg map[string]interface{})(result map[string]interface{}, err string){
-	//if msg["Rid"] == nil {
-	//	err = "Rid cannot be nil"
-	//	return
-	//}
-	//Rid := msg["Rid"].(string)
-	session := gate.NewSession(self.App, s)
-	result=self.table.Join(session.IP,session)
-	return result,""
+func (self *Hitball)join(session gate.Session, msg map[string]interface{})(result string, err string){
+	if session.GetUserid()==""{
+		session.Bind("123456")
+		//return "","no login"
+	}
+	erro:=self.table.PutQueue("Join",session)
+	if erro!=nil{
+		return "",erro.Error()
+	}
+	return "success",""
 }
 
-func (self *Hitball)fire(s map[string]interface{}, msg map[string]interface{})(result string, err string){
+func (self *Hitball)fire(session gate.Session, msg map[string]interface{})(result string, err string){
 	if msg["Angle"] == nil ||msg["Power"] == nil||msg["X"] == nil ||msg["Y"] == nil{
 		err = "Angle , Power X ,Y cannot be nil"
 		return
 	}
-	//Rid := msg["Rid"].(string)
-	session := gate.NewSession(self.App, s)
 	Angle := msg["Angle"].(float64)
 	Power := msg["Power"].(float64)
 	X := msg["X"].(float64)
 	Y := msg["Y"].(float64)
-	self.table.Fire(session.IP,X,Y,Angle,Power)
-	return "fire",""
+	erro:=self.table.PutQueue("Fire",session,float64(X),float64(Y),float64(Angle),float64(Power))
+	if erro!=nil{
+		return "",erro.Error()
+	}
+	return "success",""
 }
 
-func (self *Hitball)EatCoin(s map[string]interface{}, msg map[string]interface{})(result string, err string){
+func (self *Hitball)eatCoin(session gate.Session, msg map[string]interface{})(result string, err string){
 	if msg["Id"] == nil {
 		err = "Id cannot be nil"
 		return
 	}
-	//Rid := msg["Rid"].(string)
-	session := gate.NewSession(self.App, s)
 	Id := int(msg["Id"].(float64))
-	self.table.EatCoins(session.IP,Id)
-	return "EatCoin",""
+	erro:=self.table.PutQueue("EatCoins",session,Id)
+	if erro!=nil{
+		return "",erro.Error()
+	}
+	return "success",""
 }
 
-func (self *Hitball) move(s map[string]interface{}, msg map[string]interface{}) (result string, err string) {
+func (self *Hitball) move(s []byte, msg map[string]interface{}) (result string, err string) {
 	if msg["war"] == nil || msg["wid"] == nil || msg["x"] == nil || msg["y"] == nil {
 		err = "war , wid ,x ,y cannot be nil"
 		return
@@ -99,7 +105,10 @@ func (self *Hitball) move(s map[string]interface{}, msg map[string]interface{}) 
 	x := msg["x"].(float64)
 	y := msg["y"].(float64)
 	//passWord:=msg["passWord"].(string)
-	session := gate.NewSession(self.App, s)
+	session,erro:= gate.NewSession(self.App, s)
+	if erro!=nil{
+		return "",erro.Error()
+	}
 	roles := []map[string]float64{
 		map[string]float64{
 			"x": x,

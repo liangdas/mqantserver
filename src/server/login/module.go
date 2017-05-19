@@ -8,6 +8,7 @@ import (
 	"github.com/liangdas/mqant/conf"
 	"github.com/liangdas/mqant/gate"
 	"github.com/liangdas/mqant/module"
+	"github.com/liangdas/mqant/module/base"
 )
 
 var Module = func() module.Module {
@@ -16,7 +17,7 @@ var Module = func() module.Module {
 }
 
 type Login struct {
-	module.BaseModule
+	basemodule.BaseModule
 }
 
 func (m *Login) GetType() string {
@@ -32,6 +33,8 @@ func (m *Login) OnInit(app module.App, settings *conf.ModuleSettings) {
 
 	m.GetServer().RegisterGO("HD_Login", m.login)  //我们约定所有对客户端的请求都以Handler_开头
 	m.GetServer().RegisterGO("getRand", m.getRand) //演示后台模块间的rpc调用
+	m.GetServer().Register("HD_Robot", m.robot)
+	m.GetServer().RegisterGO("HD_Robot_GO", m.robot)  //我们约定所有对客户端的请求都以Handler_开头
 }
 
 func (m *Login) Run(closeSig chan bool) {
@@ -41,26 +44,26 @@ func (m *Login) OnDestroy() {
 	//一定别忘了关闭RPC
 	m.GetServer().OnDestroy()
 }
-
-func (m *Login) login(s map[string]interface{}, msg map[string]interface{}) (result string, err string) {
+func (m *Login) robot(session gate.Session,r []byte) (result string, err string) {
+	//time.Sleep(1)
+	return string(r),""
+}
+func (m *Login) login(session gate.Session, msg map[string]interface{}) (result string, err string) {
 	if msg["userName"] == nil || msg["passWord"] == nil {
 		result = "userName or passWord cannot be nil"
 		return
 	}
 	userName := msg["userName"].(string)
-	//passWord:=msg["passWord"].(string)
-
-	session := gate.NewSession(m.App, s)
 	err = session.Bind(userName)
 	if err != "" {
 		return
 	}
-	session.Set("login", true)
+	session.Set("login", "true")
 	session.Push() //推送到网关
 	return fmt.Sprintf("login success %s", userName), ""
 }
 
-func (m *Login) getRand(by []byte,mp map[string]interface{},f float64,i int,b bool) (result string, err string) {
+func (m *Login) getRand(by []byte,mp map[string]interface{},f float64,i int32,b bool) (result string, err string) {
 	//演示后台模块间的rpc调用
 	return fmt.Sprintf("My is Login Module %s", by,mp,f,i,b), ""
 }
