@@ -40,9 +40,9 @@ func someHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Normal Handler")
 }
 func (self *Web) Run(closeSig chan bool) {
-	l, _ := net.Listen("tcp", ":8090")
+	l, _ := net.Listen("tcp", ":8080")
 	go func() {
-		log.Info("webapp server Listen : %s", ":8090")
+		log.Info("webapp server Listen : %s", ":8080")
 		root := mux.NewRouter()
 		static:=root.PathPrefix("/static/")
 		static.Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("/work/go/mqantserver/bin"))))
