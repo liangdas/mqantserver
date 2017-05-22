@@ -5,8 +5,12 @@
 
 设置 mqantserver 目录到 GOPATH 后获取相关依赖：
 
+	go get github.com/gorilla/mux
 	go get github.com/gorilla/websocket
 	go get github.com/streadway/amqp
+	go get github.com/golang/protobuf
+	go get github.com/yireyun/go-queue
+	go get github.com/eclipse/paho.mqtt.golang
 	go get github.com/liangdas/mqant
 
 编译 mqantserver：
