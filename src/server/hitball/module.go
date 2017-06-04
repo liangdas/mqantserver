@@ -4,12 +4,14 @@
 package hitball
 
 import (
+	"math/rand"
 	"encoding/json"
 	"github.com/liangdas/mqant/conf"
 	"github.com/liangdas/mqant/gate"
 	"github.com/liangdas/mqant/log"
 	"github.com/liangdas/mqant/module"
 	"github.com/liangdas/mqant/module/base"
+	"time"
 )
 
 var Module = func() module.Module {
@@ -23,7 +25,17 @@ type Hitball struct {
 	proTime int64
 	table *Table
 }
-
+//生成随机字符串
+func GetRandomString(lenght int) string{
+	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	bytes := []byte(str)
+	result := []byte{}
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < lenght; i++ {
+		result = append(result, bytes[r.Intn(len(bytes))])
+	}
+	return string(result)
+}
 func (self *Hitball) GetType() string {
 	//很关键,需要与配置文件中的Module配置对应
 	return "Hitball"
@@ -54,7 +66,7 @@ func (self *Hitball) OnDestroy() {
 
 func (self *Hitball)join(session gate.Session, msg map[string]interface{})(result string, err string){
 	if session.GetUserid()==""{
-		session.Bind("123456")
+		session.Bind(GetRandomString(8))
 		//return "","no login"
 	}
 	erro:=self.table.PutQueue("Join",session)
