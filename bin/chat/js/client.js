@@ -204,11 +204,12 @@ $(document).ready(function() {
 			showError(NAME_ERROR);
 			return false;
 		}
+		var useSSL = 'https:' == document.location.protocol ? false : true;
 		mqant.init({
 			host: window.location.hostname,
 			port: 3653,
 			client_id: "111",
-			useSSL:false,
+			useSSL:useSSL,
 		    onSuccess:function() {
 				console.log("onConnected");
 				var topic = "Login/HD_Login";

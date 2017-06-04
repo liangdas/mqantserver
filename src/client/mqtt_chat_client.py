@@ -34,9 +34,9 @@ if __name__ == '__main__':
     client.on_message = on_message
     #链接测试服务器 需要用tls请求 python  tls功能比较弱。
     # 需要一个证书，这里使用的这个网站提供的证书https://curl.haxx.se/docs/caextract.html
-    HOST = "h5link.com"
-    client.tls_set(ca_certs="caextract.pem", certfile=None, keyfile=None, cert_reqs=ssl.CERT_REQUIRED,
-                   tls_version=ssl.PROTOCOL_TLSv1, ciphers=None)
+    HOST = "mqant.com"
+    # client.tls_set(ca_certs="caextract.pem", certfile=None, keyfile=None, cert_reqs=ssl.CERT_REQUIRED,
+    #                tls_version=ssl.PROTOCOL_TLSv1, ciphers=None)
     client.connect(HOST, 3563, 60)
     #client.loop_forever()
 

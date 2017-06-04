@@ -17,7 +17,6 @@ import (
 	"time"
 	"encoding/json"
 	"github.com/liangdas/mqant/gate"
-	"github.com/liangdas/mqant/log"
 	"github.com/yireyun/go-queue"
 	"fmt"
 	"github.com/liangdas/mqant/module"
@@ -183,17 +182,17 @@ func (self *Table)Update(arge interface{}){
 	self.ExecuteEvent(arge)	//执行这一帧客户端发送过来的消息
 
 	//位置计算
-	startTime := time.Now().UnixNano()
+	//startTime := time.Now().UnixNano()
 	for _,role:=range self.player{
 		self.wallBounce(role)
 		role.Move(friction)
 		role.Rotate()
 	}
-	s :=(time.Now().UnixNano()-self.proTime)/1000000
-	self.proTime = time.Now().UnixNano()
-	if s>26{
-		log.Debug("exct time %d et %d ns",s ,(time.Now().UnixNano()-startTime)/1000)
-	}
+	//s :=(time.Now().UnixNano()-self.proTime)/1000000
+	//self.proTime = time.Now().UnixNano()
+	//if s>26{
+	//	log.Debug("exct time %d et %d ns",s ,(time.Now().UnixNano()-startTime)/1000)
+	//}
 
 	if self.current_frame-self.sync_frame>3{
 		//每四帧同步一次

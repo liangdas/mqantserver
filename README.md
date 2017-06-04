@@ -36,6 +36,14 @@ go install server
 	[debug  ] RPCClient close success type(Chat) id(127.0.0.1:Chat)
 	[release] mqant closing down (signal: interrupt)
 
+# 更改web服务器文件访问本地路径
+
+	src/webapp/module.go 中
+	
+	static.Handler(http.StripPrefix("/mqant/", http.FileServer(http.Dir("/work/go/mqantserver/bin"))))
+	
+	/work/go/mqantserver/bin 改为你下载git的对应路径
+
 # 启动网页版本客户端
 编译 mqantserver：
 
@@ -43,9 +51,9 @@ go install client
 
 如果一切顺利，运行 bin/client
 
-访问地址为：http://127.0.0.1:8080/mqant/index.html
+访问地址为：http://127.0.0.1:8080/mqant/chat/index.html
 
-小球碰撞游戏DEMO访问地址为：http://127.0.0.1:8080/hitball/index.html
+小球碰撞游戏DEMO访问地址为：http://127.0.0.1:8080/mqant/hitball/index.html
 
 # 启动python版本客户端
 
@@ -89,7 +97,7 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 # 客户端快速测试
 如果你需要测试其他语言的mqtt客户端，可以使用mqant提供的测试接口来测试
 ### tcp mqtt :
-	host: h5link.com
+	host: mqant.com
 	port: 3563
 	protocol=mqtt.MQTTv31
 	tcp:  tls/TLSv1
@@ -98,7 +106,7 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 	https://curl.haxx.se/docs/caextract.html
 
 ### websocket mqtt :
-	host: wss://www.h5link.com:3653/mqant
+	host: ws://www.mqant.com:3653/mqant
 	protocol=mqtt.MQTTv31
 	
 ### 测试协议

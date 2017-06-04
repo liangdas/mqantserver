@@ -16,12 +16,13 @@ module.exports = {
         //this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.game.scale.setUserScale(Phaser.myScaleManager.hScale, Phaser.myScaleManager.vScale, Phaser.myScaleManager.hTrim, Phaser.myScaleManager.vTrim);
+        var useSSL = 'https:' == document.location.protocol ? false : true;
         try{
             mqant.init({
                 host: window.location.hostname,
                 port: 3653,
                 client_id: "111",
-                useSSL:false,
+                useSSL:useSSL,
                 onSuccess:function() {
                     //alert("游戏链接成功!");
                     mqant.requestNR("Hitball/HD_Join",{
