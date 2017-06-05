@@ -16,7 +16,7 @@ module.exports = {
         //this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.game.scale.setUserScale(Phaser.myScaleManager.hScale, Phaser.myScaleManager.vScale, Phaser.myScaleManager.hTrim, Phaser.myScaleManager.vTrim);
-        var useSSL = 'https:' == document.location.protocol ? false : true;
+        var useSSL = 'https:' == document.location.protocol ? true : false;
         try{
             mqant.init({
                 host: window.location.hostname,
