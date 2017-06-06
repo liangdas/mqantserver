@@ -204,7 +204,7 @@ $(document).ready(function() {
 			showError(NAME_ERROR);
 			return false;
 		}
-		var useSSL = 'https:' == document.location.protocol ? false : true;
+		var useSSL = 'https:' == document.location.protocol ? true :false ;
 		mqant.init({
 			host: window.location.hostname,
 			port: 3653,

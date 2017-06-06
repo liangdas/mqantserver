@@ -42,7 +42,7 @@ func (self *Web) Run(closeSig chan bool) {
 		log.Info("webapp server Listen : %s", ":8080")
 		root := mux.NewRouter()
 		static:=root.PathPrefix("/mqant/")
-		static.Handler(http.StripPrefix("/mqant/", http.FileServer(http.Dir("/work/go/mqantserver/bin"))))
+		static.Handler(http.StripPrefix("/mqant/", http.FileServer(http.Dir("/opt/go/mqantserver/bin"))))
 		//r.Handle("/static",static)
 		ServeMux:=http.NewServeMux()
 		ServeMux.Handle("/", root)
