@@ -10,6 +10,7 @@ import (
 	"github.com/liangdas/mqant/log"
 	"github.com/liangdas/mqant/module"
 	"github.com/liangdas/mqant/module/base"
+	"time"
 )
 
 var Module = func() module.Module {
@@ -68,8 +69,9 @@ func (m *Chat) joinChat(session gate.Session, msg map[string]interface{}) (resul
 		err = "Not Logined"
 		return
 	}
+	time.Sleep(time.Millisecond*10)
 	roomName := msg["roomName"].(string)
-	r, e := m.RpcInvoke("Login", "getRand", []byte("hello"),msg,10.01,int32(1),true)
+	r, e := m.RpcInvoke("Login", "track", session)
 
 	log.Info("演示模块间RPC调用 :", r,e)
 
@@ -90,9 +92,12 @@ func (m *Chat) joinChat(session gate.Session, msg map[string]interface{}) (resul
 		userList[session.GetUserid()] = session
 	}
 
-	rmsg := map[string]string{}
+	rmsg := map[string]interface{}{}
 	rmsg["roomName"] = roomName
 	rmsg["user"] = session.GetUserid()
+	if session.TracCarrier()!=nil{
+		rmsg["tracing"] = session.TracCarrier()
+	}
 	b, _ := json.Marshal(rmsg)
 
 	userL := make([]string, len(userList))

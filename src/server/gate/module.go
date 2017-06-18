@@ -6,7 +6,7 @@ package gate
 import (
 	"fmt"
 	"github.com/liangdas/mqant/conf"
-	"github.com/liangdas/mqant/gate"
+	"github.com/liangdas/mqant/gate/base"
 	"github.com/liangdas/mqant/log"
 	"github.com/liangdas/mqant/module"
 )
@@ -17,7 +17,7 @@ var Module = func() module.Module {
 }
 
 type Gate struct {
-	gate.Gate //继承
+	basegate.Gate //继承
 }
 
 func (gate *Gate) GetType() string {

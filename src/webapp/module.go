@@ -4,7 +4,6 @@
 package webapp
 
 import (
-	"fmt"
 	"github.com/liangdas/mqant/log"
 	"github.com/liangdas/mqant/conf"
 	"github.com/liangdas/mqant/module"
@@ -33,16 +32,19 @@ func (self *Web) Version() string {
 }
 func (self *Web) OnInit(app module.App, settings *conf.ModuleSettings) {
 	self.BaseModule.OnInit(self, app, settings)
-
-	self.GetServer().RegisterGO("mongodb", self.mongodb) //演示后台模块间的rpc调用
 }
 func (self *Web) Run(closeSig chan bool) {
-	l, _ := net.Listen("tcp", ":8080")
+	//这里如果出现异常请检查8080端口是否已经被占用
+	l, err := net.Listen("tcp", ":8080")
+	if err!=nil{
+		log.Error("webapp server error",err.Error())
+		return
+	}
 	go func() {
 		log.Info("webapp server Listen : %s", ":8080")
 		root := mux.NewRouter()
 		static:=root.PathPrefix("/mqant/")
-		static.Handler(http.StripPrefix("/mqant/", http.FileServer(http.Dir("/opt/go/mqantserver/bin"))))
+		static.Handler(http.StripPrefix("/mqant/", http.FileServer(http.Dir("/work/go/mqantserver/bin"))))
 		//r.Handle("/static",static)
 		ServeMux:=http.NewServeMux()
 		ServeMux.Handle("/", root)
@@ -58,10 +60,3 @@ func (self *Web) OnDestroy() {
 	self.GetServer().OnDestroy()
 }
 
-
-
-func (self *Web) mongodb() (rpc_result string, rpc_err string) {
-
-
-	return fmt.Sprintf("My is Login Module"), ""
-}

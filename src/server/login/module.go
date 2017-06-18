@@ -9,6 +9,8 @@ import (
 	"github.com/liangdas/mqant/gate"
 	"github.com/liangdas/mqant/module"
 	"github.com/liangdas/mqant/module/base"
+	"time"
+	"math/rand"
 )
 
 var Module = func() module.Module {
@@ -32,7 +34,9 @@ func (m *Login) OnInit(app module.App, settings *conf.ModuleSettings) {
 	m.BaseModule.OnInit(m, app, settings)
 
 	m.GetServer().RegisterGO("HD_Login", m.login)  //我们约定所有对客户端的请求都以Handler_开头
-	m.GetServer().RegisterGO("getRand", m.getRand) //演示后台模块间的rpc调用
+	m.GetServer().RegisterGO("track", m.track) //演示后台模块间的rpc调用
+	m.GetServer().RegisterGO("track2", m.track2) //演示后台模块间的rpc调用
+	m.GetServer().RegisterGO("track3", m.track3) //演示后台模块间的rpc调用
 	m.GetServer().Register("HD_Robot", m.robot)
 	m.GetServer().RegisterGO("HD_Robot_GO", m.robot)  //我们约定所有对客户端的请求都以Handler_开头
 }
@@ -63,7 +67,28 @@ func (m *Login) login(session gate.Session, msg map[string]interface{}) (result 
 	return fmt.Sprintf("login success %s", userName), ""
 }
 
-func (m *Login) getRand(by []byte,mp map[string]interface{},f float64,i int32,b bool) (result string, err string) {
+func (m *Login) track(session gate.Session) (result string, err string) {
 	//演示后台模块间的rpc调用
-	return fmt.Sprintf("My is Login Module %s", by,mp,f,i,b), ""
+	session.Span().SetTag("track","track测试")
+	time.Sleep(time.Millisecond*10)
+	m.RpcInvoke("Login", "track2", session)
+	return fmt.Sprintf("My is Login Module %s"), ""
+}
+
+func (m *Login) track2(session gate.Session) (result string, err string) {
+	//演示后台模块间的rpc调用
+	session.Span().SetTag("track","track 第二个测试函数")
+	time.Sleep(time.Millisecond*10)
+	r:=rand.Intn(100)
+	if r>30{
+		m.RpcInvoke("Login", "track3", session)
+	}
+
+	return fmt.Sprintf("My is Login Module"), ""
+}
+func (m *Login) track3(session gate.Session) (result string, err string) {
+	//演示后台模块间的rpc调用
+	session.Span().SetTag("track","track 第三个测试函数")
+	time.Sleep(time.Millisecond*10)
+	return fmt.Sprintf("My is Login Module"), ""
 }

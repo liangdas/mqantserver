@@ -105,7 +105,7 @@ func (self *Hitball)eatCoin(session gate.Session, msg map[string]interface{})(re
 	return "success",""
 }
 
-func (self *Hitball) move(s []byte, msg map[string]interface{}) (result string, err string) {
+func (self *Hitball) move(session gate.Session, msg map[string]interface{}) (result string, err string) {
 	if msg["war"] == nil || msg["wid"] == nil || msg["x"] == nil || msg["y"] == nil {
 		err = "war , wid ,x ,y cannot be nil"
 		return
@@ -117,10 +117,6 @@ func (self *Hitball) move(s []byte, msg map[string]interface{}) (result string, 
 	x := msg["x"].(float64)
 	y := msg["y"].(float64)
 	//passWord:=msg["passWord"].(string)
-	session,erro:= gate.NewSession(self.App, s)
-	if erro!=nil{
-		return "",erro.Error()
-	}
 	roles := []map[string]float64{
 		map[string]float64{
 			"x": x,

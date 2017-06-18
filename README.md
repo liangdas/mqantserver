@@ -9,6 +9,10 @@
 	go get github.com/gorilla/websocket
 	go get github.com/streadway/amqp
 	go get github.com/golang/protobuf
+	go get github.com/golang/net/context
+	go get github.com/gogo/protobuf
+	go get github.com/opentracing/basictracer-go
+	go get github.com/opentracing/opentracing-go
 	go get github.com/yireyun/go-queue
 	go get github.com/eclipse/paho.mqtt.golang
 	go get github.com/liangdas/mqant
@@ -65,8 +69,14 @@ go install client
 	2. 启动网页客户端	(默认房间名,用户名)
 	3. 登陆成功后就可以聊天了
 
-	
+# 分布式跟踪系统功能测试
+[Appdash，用Go实现的分布式系统跟踪神器](http://tonybai.com/2015/06/17/appdash-distributed-systems-tracing-in-go/)
 
+客户端访问Chat/HD_JoinChat/{msgid}时后端将会收集访问信息，通过以下地址就可以看到了
+[访问地址 http://localhost:7700](http://localhost:7700)
+
+示意图：
+![示意图](https://github.com/liangdas/mqant/wiki/images/mqant_tracing.png)
 
 # 项目目录结构
 
@@ -91,7 +101,9 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 			|-chat						聊天模块
 			|-login						登陆模块
 			|-hitball					小球碰撞游戏模块
+			|-tracing					分布式跟踪系统服务模块
 			|-main.go					服务器启动入口
+		|-sourcegraph.com			开源分布式跟踪系统Appdash源码
 
 
 # 客户端快速测试
