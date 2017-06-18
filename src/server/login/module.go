@@ -69,7 +69,9 @@ func (m *Login) login(session gate.Session, msg map[string]interface{}) (result 
 
 func (m *Login) track(session gate.Session) (result string, err string) {
 	//演示后台模块间的rpc调用
-	session.Span().SetTag("track","track测试")
+	if session.Span()!=nil{
+		session.Span().SetTag("track","track测试")
+	}
 	time.Sleep(time.Millisecond*10)
 	m.RpcInvoke("Login", "track2", session)
 	return fmt.Sprintf("My is Login Module %s"), ""
@@ -77,7 +79,9 @@ func (m *Login) track(session gate.Session) (result string, err string) {
 
 func (m *Login) track2(session gate.Session) (result string, err string) {
 	//演示后台模块间的rpc调用
-	session.Span().SetTag("track","track 第二个测试函数")
+	if session.Span()!=nil{
+		session.Span().SetTag("track","track 第二个测试函数")
+	}
 	time.Sleep(time.Millisecond*10)
 	r:=rand.Intn(100)
 	if r>30{
@@ -88,7 +92,9 @@ func (m *Login) track2(session gate.Session) (result string, err string) {
 }
 func (m *Login) track3(session gate.Session) (result string, err string) {
 	//演示后台模块间的rpc调用
-	session.Span().SetTag("track","track 第三个测试函数")
+	if session.Span()!=nil{
+		session.Span().SetTag("track","track 第三个测试函数")
+	}
 	time.Sleep(time.Millisecond*10)
 	return fmt.Sprintf("My is Login Module"), ""
 }

@@ -9,6 +9,8 @@ import (
 	"github.com/liangdas/mqant/gate/base"
 	"github.com/liangdas/mqant/log"
 	"github.com/liangdas/mqant/module"
+	"github.com/liangdas/mqant/gate"
+	"github.com/liangdas/mqant/gate/base/mqtt"
 )
 
 var Module = func() module.Module {
@@ -32,6 +34,14 @@ func (gate *Gate) OnInit(app module.App, settings *conf.ModuleSettings) {
 	//注意这里一定要用 gate.Gate 而不是 module.BaseModule
 	gate.Gate.OnInit(gate, app, settings)
 	gate.Gate.SetStorageHandler(gate) //设置持久化处理器
+	gate.Gate.SetTracingHandler(gate) //设置分布式跟踪系统处理器
+}
+
+/**
+是否需要对本次客户端请求进行跟踪
+*/
+func (gate *Gate)OnRequestTracing(session gate.Session,msg *mqtt.Publish)bool{
+	return true
 }
 
 /**
