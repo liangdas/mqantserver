@@ -3,7 +3,11 @@
 
 	git clone https://github.com/liangdas/mqantserver
 
-设置 mqantserver 目录到 GOPATH 后获取相关依赖：
+# GOPATH 用法
+
+GOPATH 用法可以看这边文章[GOPATH 用法](http://www.mqant.com/topic/597714ca8f2e454b2eb1c1ee)
+
+# mqantserver 依赖库
 
 	go get github.com/gorilla/mux
 	go get github.com/gorilla/websocket
@@ -16,11 +20,32 @@
 	go get github.com/yireyun/go-queue
 	go get github.com/eclipse/paho.mqtt.golang
 	go get github.com/liangdas/mqant
+	go get sourcegraph.com/sourcegraph
+	
+# go get golang.org/x/net 安装失败处理方案
 
-编译 mqantserver：
+[见GOPATH用法这边文章](http://www.mqant.com/topic/597714ca8f2e454b2eb1c1ee)
 
-go install server
+## 编译 mqantserver：
+
+> 如果编译过程中提示缺少某个三方库的话通过 go get 命令安装即可
+
+### 将mqantserver根目录设置到GOPATH
+
+>具体目录根据您自己的下载目录定
+
+1. 将mqantserver根目录设置到GOPATH
+   > export GOPATH=$GOPATH:/work/go/mqantserver
+2. 打印环境变量
+   >echo $GOPATH
+   >/work/go/gopath:/work/go/loolgame
+
+3. 在mqantserver根目录执行编译
+    >go install server
+
 如果一切顺利，运行 bin/server 你可以获得以下输出：
+
+> ./bin/server --conf bin/conf/server.conf --log bin/logs
 
 	[release] mqant 1.0.0 starting up
 	[debug  ] RPCClient create success type(Gate) id(127.0.0.1:Gate)
@@ -48,12 +73,8 @@ go install server
 	
 	/work/go/mqantserver/bin 改为你下载git的对应路径
 
-# 启动网页版本客户端
-编译 mqantserver：
-
-go install client
-
-如果一切顺利，运行 bin/client
+# 访问网页版本客户端
+mqantserver已内置了一个web模块（源码在server/webapp），因此进程启动成功以后就可以访问了
 
 访问地址为：http://127.0.0.1:8080/mqant/chat/index.html
 
@@ -91,10 +112,6 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 		|-client
 			|-mqtt_chat_client.py 	聊天客户端 Python版本
 			|-webclient.go			聊天客户端网页版本
-		|-github.com                需要执行 go get 命令拉取
-			|-gorilla.websocket		websocket框架
-			|-liangdas.mqant			mqant框架代码
-			|-streadway.amqp			rabbitmq通信框架
 		|-hitball						小球碰撞游戏DEMO客户端源码
 		|-server						聊天服务器Demo
 			|-gate						网关模块
@@ -103,7 +120,6 @@ https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到�
 			|-hitball					小球碰撞游戏模块
 			|-tracing					分布式跟踪系统服务模块
 			|-main.go					服务器启动入口
-		|-sourcegraph.com			开源分布式跟踪系统Appdash源码
 
 
 # 客户端快速测试
