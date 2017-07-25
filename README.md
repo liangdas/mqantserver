@@ -20,7 +20,9 @@ GOPATH 用法可以看这边文章[GOPATH 用法](http://www.mqant.com/topic/597
 	go get github.com/yireyun/go-queue
 	go get github.com/eclipse/paho.mqtt.golang
 	go get github.com/liangdas/mqant
-	go get sourcegraph.com/sourcegraph
+	go get sourcegraph.com/sourcegraph/appdash
+	go get sourcegraph.com/sourcegraph/appdash-data
+
 	
 # go get golang.org/x/net 安装失败处理方案
 
