@@ -13,7 +13,6 @@ import (
 	"sourcegraph.com/sourcegraph/appdash"
 	appdashtracer "sourcegraph.com/sourcegraph/appdash/opentracing"
 	"github.com/opentracing/opentracing-go"
-	"fmt"
 )
 var(
 	collector *appdash.RemoteCollector= nil

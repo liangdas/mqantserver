@@ -69,11 +69,18 @@ GOPATH 用法可以看这边文章[GOPATH 用法](http://www.mqant.com/topic/597
 
 # 更改web服务器文件访问本地路径
 
-	src/webapp/module.go 中
+	bin/conf/server.conf 中
 	
-	static.Handler(http.StripPrefix("/mqant/", http.FileServer(http.Dir("/work/go/mqantserver/bin"))))
-	
-	/work/go/mqantserver/bin 改为你下载git的对应路径
+	"Webapp":[
+                            {
+                                "Id":"Webapp001",
+                                "ProcessID":"development",
+                                "Settings":{
+                                    "StaticPath":"/work/go/mqantserver/bin"
+                                }
+                            }
+                    ],
+    其中StaticPath 更改为你本机上mqantserver bin的绝对路径
 
 # 访问网页版本客户端
 mqantserver已内置了一个web模块（源码在server/webapp），因此进程启动成功以后就可以访问了
