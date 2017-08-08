@@ -10,6 +10,8 @@ import (
 	"github.com/liangdas/mqant/module"
 	"github.com/liangdas/mqant/module/base"
 	"time"
+	"fmt"
+	"runtime"
 )
 
 var Module = func() module.Module {
@@ -36,12 +38,25 @@ func (self *tracing) OnInit(app module.App, settings *conf.ModuleSettings) {
 
 
 func (self *tracing) Run(closeSig chan bool) {
+	// switch 类似 if 可以带上一个短语句
+	StoreFile:="/tmp/appdash.gob"
+	switch os := runtime.GOOS; os {
+	case "darwin":
+
+	case "linux":
+	case "windows":
+		StoreFile="c://appdash.gob"
+	default:
+		// freebsd, openbsd,
+		// plan9, windows...
+		fmt.Printf("%s.", os)
+	}
 	cmd:=&ServeCmd{
 		URL           :"http://localhost:7700",
 		CollectorAddr :":7701",
 		HTTPAddr      :":7700",
 
-		StoreFile     :"/tmp/appdash.gob",
+		StoreFile     :StoreFile,
 		PersistInterval	: time.Second*2,
 
 		Debug 	:false,
