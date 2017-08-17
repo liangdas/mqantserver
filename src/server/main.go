@@ -9,7 +9,7 @@ import (
 	"server/user"
 	"webapp"
 	"github.com/liangdas/mqant/module/modules"
-	"server/tracing"
+	//"server/tracing"
 	"sourcegraph.com/sourcegraph/appdash"
 	appdashtracer "sourcegraph.com/sourcegraph/appdash/opentracing"
 	"github.com/opentracing/opentracing-go"
@@ -51,7 +51,7 @@ func main() {
 		chat.Module(),
 		user.Module(),
 		webapp.Module(),
-		tracing.Module(),
+		//tracing.Module(), 很多初学者不会改文件路径，先移除了
 	)  //这是聊天模块
 
 }
