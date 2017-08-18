@@ -17,11 +17,22 @@ import (
 	"github.com/liangdas/mqant/log"
 	"github.com/liangdas/mqant/rpc"
 	"github.com/liangdas/mqant/rpc/pb"
+	"github.com/liangdas/mqant/gate"
+	"fmt"
 )
 
 type Listener struct {
 }
-
+func (l *Listener) BeforeHandle(fn string,session gate.Session, callInfo *mqrpc.CallInfo)error{
+	if session==nil{
+		return fmt.Errorf("session 不能为nil")
+	}
+	if session.GetUserid()==""{
+		return fmt.Errorf("必须先登录账号")
+	}
+	//放行
+	return nil
+}
 func (l *Listener) OnTimeOut(fn string, Expired int64) {
 	log.Error("请求(%s)超时了!", fn)
 }
