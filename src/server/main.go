@@ -11,7 +11,7 @@ import (
 	"github.com/liangdas/mqant/module/modules"
 	//"server/tracing"
 	"sourcegraph.com/sourcegraph/appdash"
-	appdashtracer "sourcegraph.com/sourcegraph/appdash/opentracing"
+	//appdashtracer "sourcegraph.com/sourcegraph/appdash/opentracing"
 	"github.com/opentracing/opentracing-go"
 )
 var(
