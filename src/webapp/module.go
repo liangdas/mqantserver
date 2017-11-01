@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net"
 	"github.com/liangdas/mqant/module/base"
+	"time"
 )
 
 var Module = func() *Web {
@@ -33,6 +34,15 @@ func (self *Web) Version() string {
 func (self *Web) OnInit(app module.App, settings *conf.ModuleSettings) {
 	self.BaseModule.OnInit(self, app, settings)
 }
+
+func loggingHandler(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		next.ServeHTTP(w, r)
+		//[26/Oct/2017:19:07:04 +0800]`-`"GET /g/c HTTP/1.1"`"curl/7.51.0"`502`[127.0.0.1]`-`"-"`0.006`166`-`-`127.0.0.1:8030`-`0.000`xd
+		log.Info("%s %s %s [%s] in %v", r.Method,r.URL.Path,r.Proto,r.RemoteAddr, time.Since(start))
+	})
+}
 func (self *Web) Run(closeSig chan bool) {
 	//这里如果出现异常请检查8080端口是否已经被占用
 	l, err := net.Listen("tcp", ":8080")
@@ -48,7 +58,7 @@ func (self *Web) Run(closeSig chan bool) {
 		//r.Handle("/static",static)
 		ServeMux:=http.NewServeMux()
 		ServeMux.Handle("/", root)
-		http.Serve(l, ServeMux)
+		http.Serve(l, loggingHandler(ServeMux))
 	}()
 	<-closeSig
 	log.Info("webapp server Shutting down...")
