@@ -1,7 +1,7 @@
 /**
 一定要记得在confin.json配置这个模块的参数,否则无法使用
 */
-package gate
+package mgate
 
 import (
 	"fmt"
@@ -22,6 +22,7 @@ type Gate struct {
 	basegate.Gate //继承
 }
 
+
 func (gate *Gate) GetType() string {
 	//很关键,需要与配置文件中的Module配置对应
 	return "Gate"
@@ -30,9 +31,26 @@ func (gate *Gate) Version() string {
 	//可以在监控时了解代码版本
 	return "1.0.0"
 }
+
+//与客户端通信的自定义粘包示例，需要mqant v1.6.4版本以上才能运行
+//该示例只用于简单的演示，并没有实现具体的粘包协议
+//去掉下面方法的注释就能启用这个自定义的粘包处理了，但也会造成demo都无法正常通行，因为demo都是用的mqtt粘包协议
+//func (this *Gate)CreateAgent() gate.Agent{
+//	agent:= NewAgent(this)
+//	return agent
+//}
+
 func (gate *Gate) OnInit(app module.App, settings *conf.ModuleSettings) {
 	//注意这里一定要用 gate.Gate 而不是 module.BaseModule
 	gate.Gate.OnInit(gate, app, settings)
+
+
+	//与客户端通信的自定义粘包示例，需要mqant v1.6.4版本以上才能运行
+	//该示例只用于简单的演示，并没有实现具体的粘包协议
+	//去掉下面一行的注释就能启用这个自定义的粘包处理了，但也会造成demo都无法正常通行，因为demo都是用的mqtt粘包协议
+	//gate.Gate.SetCreateAgent(gate.CreateAgent)
+
+
 	gate.Gate.SetStorageHandler(gate) //设置持久化处理器
 	gate.Gate.SetTracingHandler(gate) //设置分布式跟踪系统处理器
 }
