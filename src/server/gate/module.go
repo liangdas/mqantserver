@@ -10,7 +10,6 @@ import (
 	"github.com/liangdas/mqant/log"
 	"github.com/liangdas/mqant/module"
 	"github.com/liangdas/mqant/gate"
-	"github.com/liangdas/mqant/gate/base/mqtt"
 )
 
 var Module = func() module.Module {
@@ -58,7 +57,7 @@ func (gate *Gate) OnInit(app module.App, settings *conf.ModuleSettings) {
 /**
 是否需要对本次客户端请求进行跟踪
 */
-func (gate *Gate)OnRequestTracing(session gate.Session,msg *mqtt.Publish)bool{
+func (gate *Gate)OnRequestTracing(session gate.Session)bool{
 	if session.GetUserid()==""{
 		//没有登陆的用户不跟踪
 		return false
@@ -74,7 +73,7 @@ func (gate *Gate)OnRequestTracing(session gate.Session,msg *mqtt.Publish)bool{
 存储用户的Session信息
 Session Bind Userid以后每次设置 settings都会调用一次Storage
 */
-func (gate *Gate) Storage(Userid string, settings map[string]string) (err error) {
+func (gate *Gate) Storage(Userid string, session gate.Session) (err error) {
 	log.Info("需要处理对Session的持久化")
 	return nil
 }
@@ -91,7 +90,7 @@ func (gate *Gate) Delete(Userid string) (err error) {
 获取用户Session信息
 用户登录以后会调用Query获取最新信息
 */
-func (gate *Gate) Query(Userid string) (settings map[string]string, err error) {
+func (gate *Gate) Query(Userid string) ([]byte,  error) {
 	log.Info("查询Session持久化数据")
 	return nil, fmt.Errorf("no redis")
 }
