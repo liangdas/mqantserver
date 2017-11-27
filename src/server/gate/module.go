@@ -57,7 +57,7 @@ func (gate *Gate) OnInit(app module.App, settings *conf.ModuleSettings) {
 /**
 是否需要对本次客户端请求进行跟踪
 */
-func (gate *Gate)OnRequestTracing(session gate.Session)bool{
+func (gate *Gate)OnRequestTracing(session gate.Session,topic string,msg []byte)bool{
 	if session.GetUserid()==""{
 		//没有登陆的用户不跟踪
 		return false
