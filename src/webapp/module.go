@@ -9,6 +9,7 @@ import (
 	"github.com/liangdas/mqant/module"
 	"github.com/gorilla/mux"
 	"net/http"
+	"encoding/json"
 	"net"
 	"github.com/liangdas/mqant/module/base"
 	"time"
@@ -43,6 +44,11 @@ func loggingHandler(next http.Handler) http.Handler {
 		log.Info("%s %s %s [%s] in %v", r.Method,r.URL.Path,r.Proto,r.RemoteAddr, time.Since(start))
 	})
 }
+func Statushandler (w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(map[string]string{
+		"status":"success",
+	})
+}
 func (self *Web) Run(closeSig chan bool) {
 	//这里如果出现异常请检查8080端口是否已经被占用
 	l, err := net.Listen("tcp", ":8080")
@@ -53,6 +59,9 @@ func (self *Web) Run(closeSig chan bool) {
 	go func() {
 		log.Info("webapp server Listen : %s", ":8080")
 		root := mux.NewRouter()
+		status:=root.PathPrefix("/status")
+		status.HandlerFunc(Statushandler)
+
 		static:=root.PathPrefix("/mqant/")
 		static.Handler(http.StripPrefix("/mqant/", http.FileServer(http.Dir(self.GetModuleSettings().Settings["StaticPath"].(string)))))
 		//r.Handle("/static",static)
