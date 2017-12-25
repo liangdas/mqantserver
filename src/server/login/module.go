@@ -48,9 +48,9 @@ func (m *Login) OnDestroy() {
 	//一定别忘了关闭RPC
 	m.GetServer().OnDestroy()
 }
-func (m *Login) robot(session gate.Session,r []byte) (result string, err string) {
+func (m *Login) robot(session gate.Session,msg map[string]interface{}) (result string, err string) {
 	//time.Sleep(1)
-	return string(r),""
+	return "sss",""
 }
 func (m *Login) login(session gate.Session, msg map[string]interface{}) (result string, err string) {
 	if msg["userName"] == nil || msg["passWord"] == nil {
