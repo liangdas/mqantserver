@@ -13,6 +13,7 @@ import (
 	//appdashtracer "sourcegraph.com/sourcegraph/appdash/opentracing"
 	"github.com/opentracing/opentracing-go"
 	//"github.com/liangdas/mqant-modules/tracing"
+	"server/xaxb"
 )
 var(
 	collector *appdash.RemoteCollector= nil
@@ -52,6 +53,7 @@ func main() {
 		chat.Module(),
 		user.Module(),
 		webapp.Module(),
+		xaxb.Module(),
 		//tracing.Module(), //很多初学者不会改文件路径，先移除了
 	)  //这是聊天模块
 

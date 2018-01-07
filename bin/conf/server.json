@@ -73,6 +73,19 @@
                         "ProcessID":"development"
                    }
         ],
+        "XaXb":[
+          {
+            "Id":"XaXb001",
+            "ProcessID":"development",
+            //            "Redis":{
+            //              "Uri"          :"redis://:payplug@115.28.62.110:6379/10",
+            //              "Queue"        :"XaXb001"
+            //            },
+            "Settings":{
+              "LevelPath":      	 "static/tacit/assets/levels/level1.json"
+            }
+          }
+        ],
         "Webapp":[
                         {
                             "Id":"Webapp001",

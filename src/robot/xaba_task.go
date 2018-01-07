@@ -1,4 +1,4 @@
-// Copyright 2014 loolgame Author. All Rights Reserved.
+// Copyright 2014 hey Author. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,18 +11,26 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package agent
+package main
 
 import (
-	"testing"
+	"fmt"
+	"github.com/liangdas/armyant/task"
+	"os"
+	"os/signal"
+	"robot/xaba"
 )
 
-func TestRobot(t *testing.T) {
-	robot := NewRobot("liangdas", "111")
-	err := robot.Start()
-	if err!=nil{
-		t.Error(err.Error())
+func main() {
+
+	task := task.LoopTask{
+		C:   2, //并发数
 	}
-	robot.RunTask(10000)
-	robot.Finish()
+	manager := xaba_task.NewManager(task)
+	fmt.Println("开始压测请等待")
+	task.Run(manager)
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	<-c
+	os.Exit(1)
 }

@@ -18,11 +18,13 @@ GOPATH 用法可以看这边文章[GOPATH 用法](http://www.mqant.com/topic/597
 	go get github.com/opentracing/basictracer-go
 	go get github.com/opentracing/opentracing-go
 	go get github.com/yireyun/go-queue
-	go get github.com/eclipse/paho.mqtt.golang
-	go get github.com/liangdas/mqant
 	go get github.com/garyburd/redigo
 	go get sourcegraph.com/sourcegraph/appdash
 	go get sourcegraph.com/sourcegraph/appdash-data
+	go get github.com/eclipse/paho.mqtt.golang         用于后端机器人
+	go get github.com/liangdas/mqant
+	go get github.com/liangdas/mqant-modules           牌桌模块,短信发送模块
+	go get github.com/liangdas/armyant                 用于后端机器人
 
 	
 # go get golang.org/x/net 安装失败处理方案
