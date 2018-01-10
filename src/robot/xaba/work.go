@@ -63,7 +63,11 @@ func NewWork(manager *Manager) *Work {
 	})
 	this.On("XaXb/Exit", func(client MQTT.Client, msg MQTT.Message) {
 		fmt.Println(msg.Topic(), string(msg.Payload()))
-		this.GetClient().Disconnect(250)
+		this.GetClient().Disconnect(25)
+	})
+	this.On("XaXb/OnStop", func(client MQTT.Client, msg MQTT.Message) {
+		fmt.Println(msg.Topic(), string(msg.Payload()))
+		this.GetClient().Disconnect(25)
 	})
 	this.On("XaXb/OnSync", func(client MQTT.Client, msg MQTT.Message) {
 		fmt.Println(msg.Topic(), string(msg.Payload()))

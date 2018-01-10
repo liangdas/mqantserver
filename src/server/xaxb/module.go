@@ -128,6 +128,7 @@ func (self *xaxb) HDGetUsableTable(session gate.Session,msg map[string]interface
 创建一个房间
 */
 func (self *xaxb) getUsableTable(session gate.Session) (map[string]interface{}, string) {
+	//这个桌子分配逻辑还是不智能，如果空闲的桌子多了,人数少了不容易将他们分配到相同的桌子里面快速组局
 	table, err := self.room.GetUsableTable()
 	if err == nil {
 		table.Create()

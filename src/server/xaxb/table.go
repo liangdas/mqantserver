@@ -160,12 +160,22 @@ func (this *Table) OnCreate() {
 	}
 }
 func (this *Table) OnStart() {
-	this.BaseTableImp.OnStart()
 	log.Debug("Table", "OnStart")
+	for _, player := range this.seats {
+		player.Coin=1000
+		player.Weight=0
+		player.Target=0
+		player.Stake=false
+	}
 	//将游戏状态设置到空闲期
 	this.fsm.Call(IdlePeriodEvent)
+	this.step1=0
+	this.step2=0
+	this.step3=0
+	this.step4=0
 	this.current_frame = 0
 	this.sync_frame = 0
+	this.BaseTableImp.OnStart()
 }
 func (this *Table) OnResume() {
 	this.BaseTableImp.OnResume()
@@ -193,7 +203,6 @@ func (this *Table) OnStop() {
 		nv = e.Next()
 		this.viewer.Remove(e)
 	}
-
 }
 func (this *Table) OnDestroy() {
 	this.BaseTableImp.OnDestroy()
@@ -219,6 +228,20 @@ func (self *Table) Update(arge interface{}) {
 			self.sync_frame = self.current_frame
 			self.StateSwitch()
 		}
+
+		ready := true
+		for _, seat := range self.GetSeats() {
+			if seat.Bind() == false {
+				//还没有准备好
+				ready = false
+				break
+			}
+		}
+		if ready ==false{
+			//有玩家离开了牌桌,牌桌退出
+			self.Finish()
+		}
+
 	} else if self.State() == room.Initialized {
 		ready := true
 		for _, seat := range self.GetSeats() {
