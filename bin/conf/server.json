@@ -128,6 +128,6 @@
         // 远程访问最后期限值 单位秒 这个值指定了在客户端可以等待服务端多长时间来应答
         "RpcExpired": 3,
         //默认是 false 不打印
-        "LogSuccess":true
+        "LogSuccess":false
     }
 }

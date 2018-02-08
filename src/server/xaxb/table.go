@@ -162,7 +162,7 @@ func (this *Table) OnCreate() {
 func (this *Table) OnStart() {
 	log.Debug("Table", "OnStart")
 	for _, player := range this.seats {
-		player.Coin=1000
+		player.Coin=100000
 		player.Weight=0
 		player.Target=0
 		player.Stake=false

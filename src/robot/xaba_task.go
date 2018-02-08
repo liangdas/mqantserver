@@ -24,7 +24,7 @@ import (
 func main() {
 
 	task := task.LoopTask{
-		C:   2000, //并发数 两人1桌 建立两张桌子
+		C:   10000, //并发数 两人1桌 建立两张桌子
 	}
 	manager := xaba_task.NewManager(task)
 	fmt.Println("开始压测请等待")

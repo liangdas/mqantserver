@@ -50,7 +50,7 @@ GOPATH 用法可以看这边文章[GOPATH 用法](http://www.mqant.com/topic/597
 
 如果一切顺利，运行 bin/server 你可以获得以下输出：
 
-> ./bin/server --conf bin/conf/server.conf --log bin/logs
+> ./bin/server --conf bin/conf/server.json --log bin/logs
 
 	[release] mqant 1.0.0 starting up
 	[debug  ] RPCClient create success type(Gate) id(127.0.0.1:Gate)
@@ -118,7 +118,7 @@ mqantserver已内置了一个web模块（源码在server/webapp），因此进�
 https://github.com/liangdas/mqantserver 仓库中包含了mqant框架,所用到的第三方库,聊天Demo服务端,聊天代码客户端代码
 
 	bin		
-		|-conf/server.conf			服务端配置文件
+		|-conf/server.json			服务端配置文件
 		|-public					web客户端静态文件
 		|-hitball					小球碰撞游戏DEMO客户端文件
 		|-console                   控制台web静态文件(还未完成)
