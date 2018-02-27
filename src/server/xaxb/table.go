@@ -96,6 +96,9 @@ func NewTable(module module.RPCModule, tableId int) *Table {
 
 	return this
 }
+func (this *Table) GetModule()module.RPCModule{
+	return this.module
+}
 func (this *Table) GetSeats() []room.BasePlayer {
 	m := make([]room.BasePlayer, len(this.seats))
 	for i, seat := range this.seats {
