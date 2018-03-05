@@ -3,6 +3,9 @@
 
 	git clone https://github.com/liangdas/mqantserver
 
+# 由社区提供的docker环境
+[mqant-docker](https://github.com/bjfumac/mqant-docker)
+
 # GOPATH 用法
 
 GOPATH 用法可以看这边文章[GOPATH 用法](http://www.mqant.com/topic/597714ca8f2e454b2eb1c1ee)
