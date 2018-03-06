@@ -14,6 +14,7 @@ import (
 	"github.com/opentracing/opentracing-go"
 	//"github.com/liangdas/mqant-modules/tracing"
 	"server/xaxb"
+	"server/helloworld"
 )
 var(
 	collector *appdash.RemoteCollector= nil
@@ -49,6 +50,7 @@ func main() {
 		modules.MasterModule(),
 		hitball.Module(),
 		mgate.Module(),  //这是默认网关模块,是必须的支持 TCP,websocket,MQTT协议
+		helloworld.Module(),
 		login.Module(), //这是用户登录验证模块
 		chat.Module(),
 		user.Module(),
