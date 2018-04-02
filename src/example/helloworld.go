@@ -32,9 +32,11 @@ func main()  {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	msg, err := this.Request("HelloWorld/HD_Say", []byte(`{"say":"我是梁大帅"}`))
+
+	//访问HelloWorld001模块的HD_Say函数
+	msg, err := this.Request("HelloWorld@HelloWorld001/HD_Say", []byte(`{"say":"我是梁大帅"}`))
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	fmt.Println(string(msg.Payload()))
+	fmt.Println(fmt.Sprintf("topic :%s  body :%s",msg.Topic(),string(msg.Payload())))
 }
