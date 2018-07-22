@@ -10,7 +10,7 @@ import (
 	"webapp"
 	"github.com/liangdas/mqant/module/modules"
 	"sourcegraph.com/sourcegraph/appdash"
-	//appdashtracer "sourcegraph.com/sourcegraph/appdash/opentracing"
+	appdashtracer "sourcegraph.com/sourcegraph/appdash/opentracing"
 	"github.com/opentracing/opentracing-go"
 	//"github.com/liangdas/mqant-modules/tracing"
 	"server/xaxb"
@@ -38,13 +38,13 @@ func DefaultTracer()opentracing.Tracer{
 func main() {
 	app := mqant.CreateApp()
 	//先不用分布式跟踪服务了
-	//app.DefaultTracer(func()opentracing.Tracer {
-	//	if collector==nil{
-	//		collector=appdash.NewRemoteCollector("127.0.0.1:7701")
-	//		tracer=appdashtracer.NewTracer(collector)
-	//	}
-	//	return tracer
-	//})
+	app.DefaultTracer(func()opentracing.Tracer {
+		if collector==nil{
+			collector=appdash.NewRemoteCollector("127.0.0.1:7701")
+			tracer=appdashtracer.NewTracer(collector)
+		}
+		return tracer
+	})
 	//app.Route("Chat",ChatRoute)
 	app.Run(true, //只有是在调试模式下才会在控制台打印日志, 非调试模式下只在日志文件中输出日志
 		modules.MasterModule(),
