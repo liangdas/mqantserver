@@ -107,13 +107,13 @@ func (this *CustomAgent) OnRecover(topic string,msg []byte) {
 
 func (this *CustomAgent)heartbeat(){
 	//自定义网关需要你自己设计心跳协议
-	if this.GetSession().GetUserid() != "" {
+	if this.GetSession().GetUserId() != "" {
 		//这个链接已经绑定Userid
 		interval := time.Now().UnixNano()/1000000/1000 - this.last_storage_heartbeat_data_time //单位秒
 		if interval > this.gate.GetMinStorageHeartbeat() {
 			//如果用户信息存储心跳包的时长已经大于一秒
 			if this.gate.GetStorageHandler() != nil {
-				this.gate.GetStorageHandler().Heartbeat(this.GetSession().GetUserid())
+				this.gate.GetStorageHandler().Heartbeat(this.GetSession().GetUserId())
 				this.last_storage_heartbeat_data_time = time.Now().UnixNano() / 1000000 / 1000
 			}
 		}

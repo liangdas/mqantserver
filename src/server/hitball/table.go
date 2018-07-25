@@ -238,7 +238,7 @@ func (self *Table)eatCoins(session gate.Session,Id int){
 玩家加入场景
  */
 func (self *Table)join(session gate.Session) {
-	if player,ok:=self.player[session.GetUserid()];ok{
+	if player,ok:=self.player[session.GetUserId()];ok{
 		//这个玩家已经在游戏中了
 		player.OnRequest(session)
 		return
@@ -249,7 +249,7 @@ func (self *Table)join(session gate.Session) {
 		X:	randomX,
 		Y:	randomY,
 		Wid:	0,
-		Rid:	session.GetUserid(),
+		Rid:	session.GetUserId(),
 		RotateDirection:1,
 		XSpeed: 0,
 		YSpeed: 0,
@@ -283,7 +283,7 @@ func (self *Table)remove(Rid string)(error) {
  */
 func (self *Table)fire(session gate.Session,X float64, Y float64,angle float64,power float64) {
 	//发射
-	if player,ok:=self.player[session.GetUserid()];ok{
+	if player,ok:=self.player[session.GetUserId()];ok{
 		player.Fire(X,Y,angle,power)
 		player.OnRequest(session)
 	}

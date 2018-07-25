@@ -43,7 +43,7 @@ func (this *Player) Serializable() ([]byte, error) {
 func (this *Player) SerializableMap() map[string]interface{} {
 	rid := ""
 	if this.Session() != nil {
-		rid = this.Session().GetUserid()
+		rid = this.Session().GetUserId()
 	}
 	return map[string]interface{}{
 		"SeatIndex": this.SeatIndex,

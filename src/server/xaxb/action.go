@@ -73,7 +73,7 @@ func (self *Table) Join(session gate.Session) error {
 		//回复当前状态
 		result := map[string]interface{}{
 			"State":     self.State(),
-			"Rid":       player.Session().GetUserid(),
+			"Rid":       player.Session().GetUserId(),
 			"SeatIndex": playerImp.SeatIndex,
 		}
 		b, _ := json.Marshal(result)
@@ -90,7 +90,7 @@ func (self *Table) Join(session gate.Session) error {
 
 			result := map[string]interface{}{
 				"State":     self.State(),
-				"Rid":       player.Session().GetUserid(),
+				"Rid":       player.Session().GetUserId(),
 				"SeatIndex": indexSeat,
 			}
 			b, _ := json.Marshal(result)

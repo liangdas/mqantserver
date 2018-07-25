@@ -166,7 +166,7 @@ func (self *xaxb) enter(session gate.Session, msg map[string]interface{}) (strin
 		table := self.room.GetTable(tableid)
 		if table != nil {
 			tableimp := table.(*Table)
-			if table.VerifyAccessAuthority(session.GetUserid(), bigRoomId) == false {
+			if table.VerifyAccessAuthority(session.GetUserId(), bigRoomId) == false {
 				return "", "Access rights validation failed"
 			}
 			erro := tableimp.Join(session)

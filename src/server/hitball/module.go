@@ -65,7 +65,7 @@ func (self *Hitball) OnDestroy() {
 }
 
 func (self *Hitball)join(session gate.Session, msg map[string]interface{})(result string, err string){
-	if session.GetUserid()==""{
+	if session.GetUserId()==""{
 		session.Bind(GetRandomString(8))
 		//return "","no login"
 	}

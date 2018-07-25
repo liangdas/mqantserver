@@ -27,7 +27,7 @@ func (l *Listener) BeforeHandle(fn string,session gate.Session, callInfo *mqrpc.
 	if session==nil{
 		return fmt.Errorf("session 不能为nil")
 	}
-	if session.GetUserid()==""{
+	if session.GetUserId()==""{
 		return fmt.Errorf("必须先登录账号")
 	}
 	//放行
