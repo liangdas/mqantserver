@@ -9,6 +9,7 @@ import (
 	"github.com/liangdas/mqant/gate"
 	"github.com/liangdas/mqant/module"
 	"github.com/liangdas/mqant/module/base"
+	"github.com/liangdas/mqant/log"
 	"time"
 	"math/rand"
 )
@@ -70,6 +71,7 @@ func (m *Login) login(session gate.Session, msg map[string]interface{}) (result 
 func (m *Login) track(session gate.Session) (result string, err string) {
 	//演示后台模块间的rpc调用
 	time.Sleep(time.Millisecond*10)
+	log.TInfo(session,"Login %v","track1")
 	m.RpcInvoke("Login", "track2", session)
 	return fmt.Sprintf("My is Login Module %s"), ""
 }
@@ -77,6 +79,7 @@ func (m *Login) track(session gate.Session) (result string, err string) {
 func (m *Login) track2(session gate.Session) (result string, err string) {
 	//演示后台模块间的rpc调用
 	time.Sleep(time.Millisecond*10)
+	log.TInfo(session,"Login %v","track2")
 	r:=rand.Intn(100)
 	if r>30{
 		m.RpcInvoke("Login", "track3", session)
@@ -87,5 +90,6 @@ func (m *Login) track2(session gate.Session) (result string, err string) {
 func (m *Login) track3(session gate.Session) (result string, err string) {
 	//演示后台模块间的rpc调用
 	time.Sleep(time.Millisecond*10)
+	log.TInfo(session,"Login %v","track3")
 	return fmt.Sprintf("My is Login Module"), ""
 }

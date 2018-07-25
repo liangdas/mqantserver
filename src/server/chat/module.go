@@ -61,7 +61,7 @@ func (m *Chat) joinChat(session gate.Session, msg map[string]interface{}) (resul
 		err = "roomName cannot be nil"
 		return
 	}
-	log.Info("session %v", session.GetSettings())
+	log.TInfo(session,"session %v", session.GetSettings())
 	if session.GetUserId() == "" {
 		err = "Not Logined"
 		return
@@ -70,7 +70,7 @@ func (m *Chat) joinChat(session gate.Session, msg map[string]interface{}) (resul
 	roomName := msg["roomName"].(string)
 	r, e := m.RpcInvoke("Login", "track", session)
 
-	log.Info("演示模块间RPC调用 :", r,e)
+	log.TInfo(session,"演示模块间RPC调用 :", r,e)
 
 	userList := m.chats[roomName]
 	if userList == nil {
