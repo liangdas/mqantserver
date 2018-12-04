@@ -39,6 +39,7 @@ func (m *Chat) OnInit(app module.App, settings *conf.ModuleSettings) {
 	m.chats = map[string]map[string]gate.Session{}
 	//注册一个rpc事件监听器,可以用来统计rpc调用的异常,执行时长等状态
 	m.listener=new(Listener)
+	m.listener.module=m
 	m.SetListener(m.listener)
 	//注册远程调用的函数
 	m.GetServer().RegisterGO("HD_JoinChat", m.joinChat) //我们约定所有对客户端的请求都以Handler_开头

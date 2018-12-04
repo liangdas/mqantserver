@@ -17,21 +17,42 @@ import (
 	"github.com/liangdas/mqant/log"
 	"github.com/liangdas/mqant/rpc"
 	"github.com/liangdas/mqant/rpc/pb"
+	"github.com/pkg/errors"
+	"github.com/liangdas/mqant/rpc/util"
+	"github.com/liangdas/mqant/module"
 	"github.com/liangdas/mqant/gate"
 	"fmt"
 )
 
 type Listener struct {
+	module module.RPCModule
 }
-func (l *Listener) BeforeHandle(fn string,session gate.Session, callInfo *mqrpc.CallInfo)error{
-	if session==nil{
-		return fmt.Errorf("session 不能为nil")
-	}
-	if session.GetUserId()==""{
-		return fmt.Errorf("必须先登录账号")
-	}
+func (l *Listener) BeforeHandle(fn string, callInfo *mqrpc.CallInfo)error{
 	//放行
+	for i,Type:=range callInfo.RpcInfo.ArgsType{
+		v,err:=argsutil.Bytes2Args(l.module.GetApp(),Type,callInfo.RpcInfo.Args[i])
+		if err!=nil{
+			log.Error("BeforeHandle %v",err)
+			continue
+		}
+		switch v2 := v.(type) { //多选语句switch
+		case gate.Session:
+			//尝试加载Span
+			if v2 != nil {
+				if v2==nil{
+					return fmt.Errorf("session 不能为nil")
+				}
+				if v2.GetUserId()==""{
+					return fmt.Errorf("必须先登录账号")
+				}
+			}
+		}
+	}
+
 	return nil
+}
+func (l *Listener) NoFoundFunction(fn string)(*mqrpc.FunctionInfo,error){
+	return nil,errors.Errorf("Remote function(%s) not found",fn)
 }
 func (l *Listener) OnTimeOut(fn string, Expired int64) {
 	log.Error("请求(%s)超时了!", fn)
