@@ -9,6 +9,10 @@ import (
 	"github.com/liangdas/mqant/gate"
 	"github.com/liangdas/mqant/module"
 	"github.com/liangdas/mqant/module/base"
+	"github.com/liangdas/mqant/selector"
+	"sync"
+	"github.com/liangdas/mqant/registry"
+	"math/rand"
 )
 
 var Module = func() module.Module {
@@ -35,6 +39,7 @@ func (m *HellWorld) OnInit(app module.App, settings *conf.ModuleSettings) {
 }
 
 func (m *HellWorld) Run(closeSig chan bool) {
+
 }
 
 func (m *HellWorld) OnDestroy() {

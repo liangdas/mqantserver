@@ -22,6 +22,8 @@ import (
 	"github.com/liangdas/mqant-modules/room"
 	"server/xaxb/objects"
 	"time"
+	"github.com/liangdas/mqant/module/modules/timer"
+	"sync"
 )
 
 func init() {
@@ -55,7 +57,7 @@ type Table struct {
 	current_frame int64 //当前帧
 	sync_frame    int64 //上一次同步数据的帧
 	stoped        bool
-
+	writelock   	sync.Mutex
 	VoidPeriodHandler       FSMHandler
 	IdlePeriodHandler       FSMHandler
 	BettingPeriodHandler    FSMHandler
@@ -131,14 +133,23 @@ func (this *Table) VerifyAccessAuthority(userId string, bigRoomId string) bool {
 	return true
 }
 func (this *Table) AllowJoin() bool {
+	this.writelock.Lock()
 	ready := true
-	for _, seat := range this.GetSeats() {
-		if seat.Bind() == false {
-			//还没有准备好
-			ready = false
-			break
-		}
+	if this.current_id>2{
+		this.writelock.Unlock()
+		return false
 	}
+	this.current_id++
+	this.writelock.Unlock()
+	return true
+	//for _, seat := range this.GetSeats() {
+	//	if seat.Bind() == false {
+	//		//还没有准备好
+	//		ready = false
+	//		break
+	//	}
+	//}
+
 	return !ready
 }
 func (this *Table) OnCreate() {
@@ -147,19 +158,20 @@ func (this *Table) OnCreate() {
 	log.Debug("Table", "OnCreate")
 	if this.stoped {
 		this.stoped = false
-		go func() {
-			//这里设置为500ms
-			tick := time.NewTicker(1000 * time.Millisecond)
-			defer func() {
-				tick.Stop()
-			}()
-			for !this.stoped {
-				select {
-				case <-tick.C:
-					this.Update(nil)
-				}
-			}
-		}()
+		timewheel.GetTimeWheel().AddTimer(1000 * time.Millisecond, nil,this.Update)
+		//go func() {
+		//	//这里设置为500ms
+		//	tick := time.NewTicker(1000 * time.Millisecond)
+		//	defer func() {
+		//		tick.Stop()
+		//	}()
+		//	for !this.stoped {
+		//		select {
+		//		case <-tick.C:
+		//			this.Update(nil)
+		//		}
+		//	}
+		//}()
 	}
 }
 func (this *Table) OnStart() {
@@ -261,6 +273,9 @@ func (self *Table) Update(arge interface{}) {
 
 	self.ExecuteCallBackMsg() //统一发送数据到客户端
 	self.CheckTimeOut()
+	if !self.stoped {
+		timewheel.GetTimeWheel().AddTimer(100 * time.Millisecond , nil,self.Update)
+	}
 }
 
 func (self *Table) Exit(session gate.Session) error {

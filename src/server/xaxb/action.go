@@ -65,6 +65,8 @@ func (self *Table) PauseGame(session gate.Session) error {
 玩家加入场景
 */
 func (self *Table) Join(session gate.Session) error {
+	self.writelock.Lock()
+	defer self.writelock.Unlock()
 	player := self.GetBindPlayer(session)
 	if player != nil {
 		playerImp := player.(*objects.Player)

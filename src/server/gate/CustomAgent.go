@@ -41,7 +41,7 @@ type CustomAgent struct {
 	gate                             gate.Gate
 	rev_num                          int64
 	send_num                         int64
-	last_storage_heartbeat_data_time int64 //上一次发送存储心跳时间
+	last_storage_heartbeat_data_time time.Duration //上一次发送存储心跳时间
 	isclose                          bool
 }
 func (this *CustomAgent) OnInit(gate gate.Gate,conn network.Conn)error{
@@ -109,12 +109,12 @@ func (this *CustomAgent)heartbeat(){
 	//自定义网关需要你自己设计心跳协议
 	if this.GetSession().GetUserId() != "" {
 		//这个链接已经绑定Userid
-		interval := time.Now().UnixNano()/1000000/1000 - this.last_storage_heartbeat_data_time //单位秒
-		if interval > this.gate.GetMinStorageHeartbeat() {
+		interval :=int64(this.last_storage_heartbeat_data_time)+int64(this.gate.Options().Heartbeat) //单位纳秒
+		if interval < time.Now().UnixNano() {
 			//如果用户信息存储心跳包的时长已经大于一秒
 			if this.gate.GetStorageHandler() != nil {
 				this.gate.GetStorageHandler().Heartbeat(this.GetSession().GetUserId())
-				this.last_storage_heartbeat_data_time = time.Now().UnixNano() / 1000000 / 1000
+				this.last_storage_heartbeat_data_time = time.Duration(time.Now().UnixNano())
 			}
 		}
 	}

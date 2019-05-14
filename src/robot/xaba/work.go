@@ -24,14 +24,15 @@ import (
 	"github.com/liangdas/mqant/utils"
 	"io/ioutil"
 	"time"
+	"strings"
 )
 
 func NewWork(manager *Manager) *Work {
 	this := new(Work)
 	this.manager = manager
 	//opts:=this.GetDefaultOptions("tls://127.0.0.1:3563")
-	//opts := this.GetDefaultOptions("tcp://127.0.0.1:3563")
-	opts := this.GetDefaultOptions("ws://127.0.0.1:3653")
+	opts := this.GetDefaultOptions("tcp://127.0.0.1:3563")
+	//opts := this.GetDefaultOptions("ws://127.0.0.1:3653")
 	opts.SetConnectionLostHandler(func(client MQTT.Client, err error) {
 		fmt.Println("ConnectionLost", err.Error())
 	})
@@ -130,30 +131,44 @@ func (this *Work) RunWorker(t task.Task) {
 	//	return
 	//}
 	//fmt.Println(msg.Topic(),string(msg.Payload()))
+
+	for  {
+		msg, err := this.Request("XaXb/HD_Hello", []byte(`{"gameName":"xaxb"}`))
+		if err != nil {
+			return
+		}
+
+		if !strings.Contains(string(msg.Payload()),"success"){
+			fmt.Println(string(msg.Payload()))
+		}
+		//this.RequestNR("XaXb/HD_Hello", []byte(`{"gameName":"xaxb"}`))
+		time.Sleep(time.Millisecond*1000)
+	}
 	//申请牌桌
-	msg, err := this.Request("XaXb/HD_GetUsableTable", []byte(`{"gameName":"xaxb"}`))
-	if err != nil {
-		return
-	}
-	fmt.Println(msg.Topic(), string(msg.Payload()))
-	//进入牌桌
-	BigRoomId := this.UnmarshalResult(msg.Payload())["BigRoomId"].(string)
-	msg, err = this.Request("XaXb/HD_Enter", []byte(fmt.Sprintf(`{"BigRoomId":"%s"}`, BigRoomId)))
-	if err != nil {
-		return
-	}
-	fmt.Println(msg.Topic(), string(msg.Payload()))
-	//坐下
-	msg, err = this.Request("XaXb/HD_SitDown", []byte(fmt.Sprintf(`{"BigRoomId":"%s"}`, BigRoomId)))
-	if err != nil {
-		return
-	}
-	fmt.Println(msg.Topic(), string(msg.Payload()))
+	//msg, err := this.Request("XaXb/HD_GetUsableTable", []byte(`{"gameName":"xaxb"}`))
+	//if err != nil {
+	//	return
+	//}
+	//
+	//fmt.Println(msg.Topic(), string(msg.Payload()))
+	////进入牌桌
+	//BigRoomId := this.UnmarshalResult(msg.Payload())["BigRoomId"].(string)
+	//msg, err = this.Request("XaXb/HD_Enter", []byte(fmt.Sprintf(`{"BigRoomId":"%s"}`, BigRoomId)))
+	//if err != nil {
+	//	return
+	//}
+	//fmt.Println(msg.Topic(), string(msg.Payload()))
+	////坐下
+	//msg, err = this.Request("XaXb/HD_SitDown", []byte(fmt.Sprintf(`{"BigRoomId":"%s"}`, BigRoomId)))
+	//if err != nil {
+	//	return
+	//}
+	//fmt.Println(msg.Topic(), string(msg.Payload()))
 
 }
 func (this *Work) Init(t task.Task) {
 
 }
 func (this *Work) Close(t task.Task) {
-
+	this.GetClient().Disconnect(0)
 }

@@ -10,6 +10,7 @@ import (
 	"github.com/liangdas/mqant/log"
 	"github.com/liangdas/mqant/module"
 	"github.com/liangdas/mqant/gate"
+	"time"
 )
 
 var Module = func() module.Module {
@@ -22,11 +23,11 @@ type Gate struct {
 }
 
 
-func (gate *Gate) GetType() string {
+func (this *Gate) GetType() string {
 	//很关键,需要与配置文件中的Module配置对应
 	return "Gate"
 }
-func (gate *Gate) Version() string {
+func (this *Gate) Version() string {
 	//可以在监控时了解代码版本
 	return "1.0.0"
 }
@@ -39,9 +40,9 @@ func (gate *Gate) Version() string {
 //	return agent
 //}
 
-func (gate *Gate) OnInit(app module.App, settings *conf.ModuleSettings) {
+func (this *Gate) OnInit(app module.App, settings *conf.ModuleSettings) {
 	//注意这里一定要用 gate.Gate 而不是 module.BaseModule
-	gate.Gate.OnInit(gate, app, settings)
+	this.Gate.OnInit(this, app, settings,gate.Heartbeat(time.Second*10))
 
 
 	//与客户端通信的自定义粘包示例，需要mqant v1.6.4版本以上才能运行
@@ -49,17 +50,16 @@ func (gate *Gate) OnInit(app module.App, settings *conf.ModuleSettings) {
 	//去掉下面一行的注释就能启用这个自定义的粘包处理了，但也会造成demo都无法正常通行，因为demo都是用的mqtt粘包协议
 	//gate.Gate.SetCreateAgent(gate.CreateAgent)
 
-	gate.Gate.SetSessionLearner(gate)
-	gate.Gate.SetStorageHandler(gate) //设置持久化处理器
-	gate.Gate.SetTracingHandler(gate) //设置分布式跟踪系统处理器
+	this.Gate.SetSessionLearner(this)
+	this.Gate.SetStorageHandler(this) //设置持久化处理器
 }
 //当连接建立  并且MQTT协议握手成功
 func (this *Gate) Connect(session gate.Session)  {
-	log.Info("客户端建立了链接")
+	//log.Info("客户端建立了链接")
 }
 //当连接关闭	或者客户端主动发送MQTT DisConnect命令 ,这个函数中Session无法再继续后续的设置操作，只能读取部分配置内容了
 func (this *Gate) DisConnect(session gate.Session) {
-	log.Info("客户端断开了链接")
+	//log.Info("客户端断开了链接")
 }
 /**
 是否需要对本次客户端请求进行跟踪

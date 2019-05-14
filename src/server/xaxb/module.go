@@ -35,6 +35,7 @@ import (
 	"github.com/liangdas/mqant/module"
 	"github.com/liangdas/mqant/module/base"
 	"github.com/liangdas/mqant-modules/room"
+	"github.com/liangdas/mqant/server"
 )
 
 var Module = func() module.Module {
@@ -58,7 +59,7 @@ func (self *xaxb) Version() string {
 	return "1.0.0"
 }
 func (self *xaxb) GetFullServerId() string {
-	return self.GetType() + "@" + self.GetServerId()
+	return self.GetServerId()
 }
 func (self *xaxb) usableTable(table room.BaseTable) bool {
 	return table.AllowJoin()
@@ -68,17 +69,23 @@ func (self *xaxb) newTable(module module.RPCModule, tableId int) (room.BaseTable
 	return table, nil
 }
 func (self *xaxb) OnInit(app module.App, settings *conf.ModuleSettings) {
-	self.BaseModule.OnInit(self, app, settings)
+	self.BaseModule.OnInit(self, app, settings,server.Metadata(map[string]string{
+		"type":"helloworld",
+	}))
 	self.gameId = 13
 	self.room = room.NewRoom(self, self.gameId, self.newTable, self.usableTable)
-	self.GetServer().Register("GetUsableTable", self.getUsableTable)
-	self.GetServer().Register("HD_GetUsableTable", self.HDGetUsableTable)
-	self.GetServer().Register("HD_Enter", self.enter)
+	self.GetServer().RegisterGO("GetUsableTable", self.getUsableTable)
+	self.GetServer().RegisterGO("HD_GetUsableTable", self.HDGetUsableTable)
+	self.GetServer().RegisterGO("HD_Enter", self.enter)
 	self.GetServer().RegisterGO("HD_Exit", self.exit)
 	self.GetServer().RegisterGO("HD_SitDown", self.sitdown)
 	self.GetServer().RegisterGO("HD_StartGame", self.startGame)
 	self.GetServer().RegisterGO("HD_PauseGame", self.pauseGame)
 	self.GetServer().RegisterGO("HD_Stake", self.stake)
+	self.GetServer().RegisterGO("HD_Hello", func(session gate.Session, msg map[string]interface{}) (string, string) {
+		//log.Info("HD_Hello")
+		return "success",""
+	})
 }
 
 func (self *xaxb) Run(closeSig chan bool) {
