@@ -113,7 +113,7 @@ func (this *CustomAgent)heartbeat(){
 		if interval < time.Now().UnixNano() {
 			//如果用户信息存储心跳包的时长已经大于一秒
 			if this.gate.GetStorageHandler() != nil {
-				this.gate.GetStorageHandler().Heartbeat(this.GetSession().GetUserId())
+				this.gate.GetStorageHandler().Heartbeat(this.GetSession())
 				this.last_storage_heartbeat_data_time = time.Duration(time.Now().UnixNano())
 			}
 		}

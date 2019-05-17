@@ -80,7 +80,7 @@ func (gate *Gate)OnRequestTracing(session gate.Session,topic string,msg []byte)b
 存储用户的Session信息
 Session Bind Userid以后每次设置 settings都会调用一次Storage
 */
-func (gate *Gate) Storage(Userid string, session gate.Session) (err error) {
+func (gate *Gate) Storage(session gate.Session) (err error) {
 	log.Info("需要处理对Session的持久化")
 	return nil
 }
@@ -88,7 +88,7 @@ func (gate *Gate) Storage(Userid string, session gate.Session) (err error) {
 /**
 强制删除Session信息
 */
-func (gate *Gate) Delete(Userid string) (err error) {
+func (gate *Gate) Delete(session gate.Session) (err error) {
 	log.Info("需要删除Session持久化数据")
 	return nil
 }
@@ -106,6 +106,6 @@ func (gate *Gate) Query(Userid string) ([]byte,  error) {
 用户心跳,一般用户在线时60s发送一次
 可以用来延长Session信息过期时间
 */
-func (gate *Gate) Heartbeat(Userid string) {
+func (gate *Gate) Heartbeat(session gate.Session) {
 	log.Info("用户在线的心跳包")
 }

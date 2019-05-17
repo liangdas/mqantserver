@@ -24,7 +24,6 @@ import (
 	"github.com/liangdas/mqant/utils"
 	"io/ioutil"
 	"time"
-	"strings"
 )
 
 func NewWork(manager *Manager) *Work {
@@ -132,38 +131,38 @@ func (this *Work) RunWorker(t task.Task) {
 	//}
 	//fmt.Println(msg.Topic(),string(msg.Payload()))
 
-	for  {
-		msg, err := this.Request("XaXb/HD_Hello", []byte(`{"gameName":"xaxb"}`))
-		if err != nil {
-			return
-		}
-
-		if !strings.Contains(string(msg.Payload()),"success"){
-			fmt.Println(string(msg.Payload()))
-		}
-		//this.RequestNR("XaXb/HD_Hello", []byte(`{"gameName":"xaxb"}`))
-		time.Sleep(time.Millisecond*1000)
-	}
-	//申请牌桌
-	//msg, err := this.Request("XaXb/HD_GetUsableTable", []byte(`{"gameName":"xaxb"}`))
-	//if err != nil {
-	//	return
-	//}
+	//for  {
+	//	msg, err := this.Request("XaXb/HD_Hello", []byte(`{"gameName":"xaxb"}`))
+	//	if err != nil {
+	//		return
+	//	}
 	//
-	//fmt.Println(msg.Topic(), string(msg.Payload()))
-	////进入牌桌
-	//BigRoomId := this.UnmarshalResult(msg.Payload())["BigRoomId"].(string)
-	//msg, err = this.Request("XaXb/HD_Enter", []byte(fmt.Sprintf(`{"BigRoomId":"%s"}`, BigRoomId)))
-	//if err != nil {
-	//	return
+	//	if !strings.Contains(string(msg.Payload()),"success"){
+	//		fmt.Println(string(msg.Payload()))
+	//	}
+	//	//this.RequestNR("XaXb/HD_Hello", []byte(`{"gameName":"xaxb"}`))
+	//	time.Sleep(time.Millisecond*1000)
 	//}
-	//fmt.Println(msg.Topic(), string(msg.Payload()))
-	////坐下
-	//msg, err = this.Request("XaXb/HD_SitDown", []byte(fmt.Sprintf(`{"BigRoomId":"%s"}`, BigRoomId)))
-	//if err != nil {
-	//	return
-	//}
-	//fmt.Println(msg.Topic(), string(msg.Payload()))
+	//申请牌桌
+	msg, err := this.Request("XaXb/HD_GetUsableTable", []byte(`{"gameName":"xaxb"}`))
+	if err != nil {
+		return
+	}
+
+	fmt.Println(msg.Topic(), string(msg.Payload()))
+	//进入牌桌
+	BigRoomId := this.UnmarshalResult(msg.Payload())["BigRoomId"].(string)
+	msg, err = this.Request("XaXb/HD_Enter", []byte(fmt.Sprintf(`{"BigRoomId":"%s"}`, BigRoomId)))
+	if err != nil {
+		return
+	}
+	fmt.Println(msg.Topic(), string(msg.Payload()))
+	//坐下
+	msg, err = this.Request("XaXb/HD_SitDown", []byte(fmt.Sprintf(`{"BigRoomId":"%s"}`, BigRoomId)))
+	if err != nil {
+		return
+	}
+	fmt.Println(msg.Topic(), string(msg.Payload()))
 
 }
 func (this *Work) Init(t task.Task) {
