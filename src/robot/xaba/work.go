@@ -30,8 +30,8 @@ func NewWork(manager *Manager) *Work {
 	this := new(Work)
 	this.manager = manager
 	//opts:=this.GetDefaultOptions("tls://127.0.0.1:3563")
-	opts := this.GetDefaultOptions("tcp://127.0.0.1:3563")
-	//opts := this.GetDefaultOptions("ws://127.0.0.1:3653")
+	//opts := this.GetDefaultOptions("tcp://127.0.0.1:3563")
+	opts := this.GetDefaultOptions("ws://127.0.0.1:3653")
 	opts.SetConnectionLostHandler(func(client MQTT.Client, err error) {
 		fmt.Println("ConnectionLost", err.Error())
 	})

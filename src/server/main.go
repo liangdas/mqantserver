@@ -61,7 +61,7 @@ func main() {
 		return func() (*registry.Node, error) {
 			mtx.Lock()
 			defer mtx.Unlock()
-			index := rand.Intn(len(nodes))
+			index := rand.Intn(int(len(nodes)))
 			return nodes[index], nil
 		}
 	}))
