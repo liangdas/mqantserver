@@ -20,6 +20,7 @@ import (
 	"github.com/liangdas/mqant/selector"
 	"sync"
 	"math/rand"
+	"fmt"
 )
 //func ChatRoute( app module.App,Type string,hash string) (*module.ServerSession){
 //	//演示多个服务路由 默认使用第一个Server
@@ -61,6 +62,9 @@ func main() {
 		return func() (*registry.Node, error) {
 			mtx.Lock()
 			defer mtx.Unlock()
+			if len(nodes)==0{
+				return nil,fmt.Errorf("no node")
+			}
 			index := rand.Intn(int(len(nodes)))
 			return nodes[index], nil
 		}
