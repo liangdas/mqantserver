@@ -17,10 +17,6 @@ import (
 	"github.com/liangdas/mqant/module"
 	"github.com/liangdas/mqant/registry"
 	"github.com/nats-io/go-nats"
-	"github.com/liangdas/mqant/selector"
-	"sync"
-	"math/rand"
-	"fmt"
 )
 //func ChatRoute( app module.App,Type string,hash string) (*module.ServerSession){
 //	//演示多个服务路由 默认使用第一个Server
@@ -45,30 +41,30 @@ func main() {
 		module.Nats(nc),
 		module.Registry(rs),
 	)
-	app.Options().Selector.Init(selector.SetStrategy(func(services []*registry.Service) selector.Next{
-		var nodes []*registry.Node
-
-		// Filter the nodes for datacenter
-		for _, service := range services {
-			for _, node := range service.Nodes {
-				if node.Metadata["type"] == "helloworld" {
-					nodes = append(nodes, node)
-				}
-			}
-		}
-
-		var mtx sync.Mutex
-		//log.Info("services[0] $v",services[0].Nodes[0])
-		return func() (*registry.Node, error) {
-			mtx.Lock()
-			defer mtx.Unlock()
-			if len(nodes)==0{
-				return nil,fmt.Errorf("no node")
-			}
-			index := rand.Intn(int(len(nodes)))
-			return nodes[index], nil
-		}
-	}))
+	//app.Options().Selector.Init(selector.SetStrategy(func(services []*registry.Service) selector.Next{
+	//	var nodes []*registry.Node
+	//
+	//	// Filter the nodes for datacenter
+	//	for _, service := range services {
+	//		for _, node := range service.Nodes {
+	//			if node.Metadata["type"] == "helloworld" {
+	//				nodes = append(nodes, node)
+	//			}
+	//		}
+	//	}
+	//
+	//	var mtx sync.Mutex
+	//	//log.Info("services[0] $v",services[0].Nodes[0])
+	//	return func() (*registry.Node, error) {
+	//		mtx.Lock()
+	//		defer mtx.Unlock()
+	//		if len(nodes)==0{
+	//			return nil,fmt.Errorf("no node")
+	//		}
+	//		index := rand.Intn(int(len(nodes)))
+	//		return nodes[index], nil
+	//	}
+	//}))
 	//app.Route("Chat",ChatRoute)
 	app.Run(true, //只有是在调试模式下才会在控制台打印日志, 非调试模式下只在日志文件中输出日志
 		modules.MasterModule(),
