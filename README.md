@@ -3,6 +3,17 @@
 
 	git clone https://github.com/liangdas/mqantserver
 
+# mqant 2x开始支持分布式服务发现
+
+[请务必先查看2x跟1x版本差异](https://github.com/liangdas/mqant/wiki/mqant%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E6%A6%82%E8%BF%B0)
+
+## 依赖组件
+
+必须启动的组件有
+
+1. consul
+2. nats
+
 # 由社区提供的docker环境
 [mqant-docker](https://github.com/bjfumac/mqant-docker)
 
