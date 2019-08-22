@@ -15,7 +15,7 @@ package xaxb
 
 import (
 	"encoding/json"
-	"server/xaxb/objects"
+	"mqantserver/src/server/xaxb/objects"
 )
 
 /**

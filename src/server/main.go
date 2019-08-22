@@ -2,16 +2,8 @@ package main
 
 import (
 	"github.com/liangdas/mqant"
-	"server/chat"
-	"server/gate"
-	"server/login"
-	"server/hitball"
-	"server/user"
-	"webapp"
 	"github.com/liangdas/mqant/module/modules"
 	//"github.com/liangdas/mqant-modules/tracing"
-	"server/xaxb"
-	"server/helloworld"
 	_ "net/http/pprof"
 	"net/http"
 	"github.com/liangdas/mqant/module"
@@ -21,6 +13,14 @@ import (
 	"github.com/liangdas/mqant/selector"
 	"math/rand"
 	"fmt"
+	"mqantserver/src/server/helloworld"
+	"mqantserver/src/server/login"
+	"mqantserver/src/server/chat"
+	"mqantserver/src/server/user"
+	"mqantserver/src/server/hitball"
+	"mqantserver/src/webapp"
+	"mqantserver/src/server/xaxb"
+	"mqantserver/src/server/gate"
 )
 //func ChatRoute( app module.App,Type string,hash string) (*module.ServerSession){
 //	//演示多个服务路由 默认使用第一个Server

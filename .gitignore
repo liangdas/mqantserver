@@ -14,6 +14,7 @@ node_modules
 *.a
 *.so
 *.iml
+projectFilesBackup
 
 # Folders
 _obj

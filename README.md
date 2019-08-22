@@ -12,51 +12,33 @@
 必须启动的组件有
 
 1. consul
+
+    consul agent --dev
+
 2. nats
+
+    gnats
+
+
+
 
 # 由社区提供的docker环境
 [mqant-docker](https://github.com/bjfumac/mqant-docker)
 
-# GOPATH 用法
+# go.mod 用法
 
-GOPATH 用法可以看这边文章[GOPATH 用法](http://www.mqant.com/topic/597714ca8f2e454b2eb1c1ee)
+mqantserver 只支持golang1.2版本以上的go.mod方式编译
 
-# mqantserver 依赖库
+# 翻墙
 
-	go get github.com/gorilla/mux
-	go get github.com/gorilla/websocket
-	go get github.com/streadway/amqp
-	go get github.com/golang/protobuf
-	go get github.com/golang/net/context
-	go get github.com/gogo/protobuf
-	go get github.com/yireyun/go-queue
-	go get github.com/garyburd/redigo
-	go get github.com/eclipse/paho.mqtt.golang         用于后端机器人
-	go get github.com/liangdas/mqant
-	go get github.com/liangdas/mqant-modules           牌桌模块,短信发送模块
-	go get github.com/liangdas/armyant                 用于后端机器人
+>golang.org/x/net 等库无法下载的问题
 
-	
-# go get golang.org/x/net 安装失败处理方案
+export GOPROXY=https://goproxy.io
 
-[见GOPATH用法这边文章](http://www.mqant.com/topic/597714ca8f2e454b2eb1c1ee)
 
 ## 编译 mqantserver：
 
-> 如果编译过程中提示缺少某个三方库的话通过 go get 命令安装即可
-
-### 将mqantserver根目录设置到GOPATH
-
->具体目录根据您自己的下载目录定
-
-1. 将mqantserver根目录设置到GOPATH
-   > export GOPATH=$GOPATH:/work/go/mqantserver
-2. 打印环境变量
-   >echo $GOPATH
-   >/work/go/gopath:/work/go/loolgame
-
-3. 在mqantserver根目录执行编译
-    >go install server
+go install server
 
 如果一切顺利，运行 bin/server 你可以获得以下输出：
 

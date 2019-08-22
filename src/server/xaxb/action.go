@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"github.com/liangdas/mqant/gate"
 	"github.com/liangdas/mqant-modules/room"
-	"server/xaxb/objects"
+	"mqantserver/src/server/xaxb/objects"
 )
 
 func (self *Table) SitDown(session gate.Session) error {

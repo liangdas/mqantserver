@@ -20,7 +20,7 @@ import (
 	"github.com/yireyun/go-queue"
 	"fmt"
 	"github.com/liangdas/mqant/module"
-	"server/hitball/objects"
+	"mqantserver/src/server/hitball/objects"
 )
 var(
 	friction float64=0.99 	 // friction affects ball speed 速度递减因子
