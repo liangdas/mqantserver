@@ -25,6 +25,7 @@ github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZm
 github.com/eclipse/paho.mqtt.golang v1.2.0 h1:1F8mhG9+aO5/xpdtFkW4SxOJB67ukuDC3t2y2qayIX0=
 github.com/eclipse/paho.mqtt.golang v1.2.0/go.mod h1:H9keYFcgq3Qr5OUJm/JZI/i6U7joQ8SYLhZwfeOo6Ts=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
+github.com/garyburd/redigo v1.6.0/go.mod h1:NR3MbYisc3/PwhQ00EMzDiPmrwpPxAn5GI05/YaO1SY=
 github.com/ghodss/yaml v1.0.0/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=
 github.com/go-kit/kit v0.8.0/go.mod h1:xBxKIO96dXMWWy0MnWVtmwkA9/13aqxPnvrjFYMA2as=
 github.com/go-logfmt/logfmt v0.3.0/go.mod h1:Qt1PoO58o5twSAckw1HlFXLmHsOX5/0LbT9GBnD5lWE=
@@ -105,8 +106,8 @@ github.com/liangdas/armyant v0.0.0-20181120080818-50ccc5936868 h1:84Vsk7F5AG9kFF
 github.com/liangdas/armyant v0.0.0-20181120080818-50ccc5936868/go.mod h1:AgpkN9LqG5QT47ca4Efu+QZ43DBNn0TLZAMdXbVjXAc=
 github.com/liangdas/mqant v2.1.1+incompatible h1:WvUP/TnvTkEV4m+2VKvggmse1jwA70qprQfqMwlAC40=
 github.com/liangdas/mqant v2.1.1+incompatible/go.mod h1:dlLWri7cd5AaKFQ6GGzGZJp9IOh8dHOmRcjGTwGcKoU=
-github.com/liangdas/mqant-modules v0.0.0-20190318133517-0c0699b2a189 h1:PCzAFJLaRdTn4Brcd74U5z0xt4YWA/Y1YOzua0kz9Lk=
-github.com/liangdas/mqant-modules v0.0.0-20190318133517-0c0699b2a189/go.mod h1:lDrGT2noTZ1V96IEOgYjNyjhoSxoKi+Dx9bcxGo/HwU=
+github.com/liangdas/mqant-modules v0.0.1+incompatible h1:fOyQPwmADulm17FweivGCw+U7hKOtqqZLAaODUoGUxY=
+github.com/liangdas/mqant-modules v0.0.1+incompatible/go.mod h1:GCr+N3H1eSme4gyATpMPVGl59ZB3J/0g8Qs8qyYgynA=
 github.com/mattn/go-colorable v0.0.9/go.mod h1:9vuHe8Xs5qXnSaW/c/ABM9alt+Vo+STaOChaDxuIBZU=
 github.com/mattn/go-isatty v0.0.3/go.mod h1:M+lRXTBqGeGNdLjl/ufCoiOlB5xdOkqRJdNxMWT7Zi4=
 github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
