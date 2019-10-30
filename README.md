@@ -38,11 +38,13 @@ export GOPROXY=https://goproxy.io
 
 ## 编译 mqantserver：
 
-go install server
+go install server/main.go
 
-如果一切顺利，运行 bin/server 你可以获得以下输出：
+go build server/main.go
 
-> ./bin/server --conf bin/conf/server.json --log bin/logs
+如果一切顺利，运行 main 你可以获得以下输出：
+
+> ./main --conf bin/conf/server.json --log bin/logs
 
 	[release] mqant 1.0.0 starting up
 	[debug  ] RPCClient create success type(Gate) id(127.0.0.1:Gate)
