@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/liangdas/mqant"
 	"github.com/liangdas/mqant/module/modules"
+	"github.com/nats-io/nats.go"
+
 	//"github.com/liangdas/mqant-modules/tracing"
 	"fmt"
 	"github.com/liangdas/mqant/module"
@@ -16,7 +18,6 @@ import (
 	"github.com/liangdas/mqantserver/server/user"
 	"github.com/liangdas/mqantserver/server/xaxb"
 	"github.com/liangdas/mqantserver/webapp"
-	"github.com/nats-io/go-nats"
 	"math/rand"
 	"net/http"
 	_ "net/http/pprof"
