@@ -24,16 +24,6 @@ import (
 	"sync"
 )
 
-//func ChatRoute( app module.App,Type string,hash string) (*module.ServerSession){
-//	//演示多个服务路由 默认使用第一个Server
-//	log.Debug("Hash:%s 将要调用 type : %s",hash,Type)
-//	servers:=app.GetServersByType(Type)
-//	if len(servers)==0{
-//		return nil
-//	}
-//	return servers[0]
-//}
-
 func main() {
 	go func() {
 		http.ListenAndServe("0.0.0.0:6060", nil)
