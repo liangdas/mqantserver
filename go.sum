@@ -106,8 +106,8 @@ github.com/liangdas/armyant v0.0.0-20181120080818-50ccc5936868 h1:84Vsk7F5AG9kFF
 github.com/liangdas/armyant v0.0.0-20181120080818-50ccc5936868/go.mod h1:AgpkN9LqG5QT47ca4Efu+QZ43DBNn0TLZAMdXbVjXAc=
 github.com/liangdas/mqant v1.0.0 h1:u19qdHioVbJveUrj1Opy7ck/+2LttLxUZlOYw1C7iwE=
 github.com/liangdas/mqant v1.0.0/go.mod h1:4/pu3k0bBggF0ljMP/ONGXXJrXyunNfJGmR2iLCyKLE=
-github.com/liangdas/mqant v1.1.4 h1:AjUowXGqXCdoYXjIBzRI4SWce1/yVcSFGMpRnLnYfQ8=
-github.com/liangdas/mqant v1.1.4/go.mod h1:4/fSJqKJ/Ez/L9oaTi2TrJciqXgVcvBFhs0sd4REgW4=
+github.com/liangdas/mqant v1.2.0 h1:sBjYi6iCd2HWOiUbL3+zOBfvCdxt0t13gIx/I3oRtBg=
+github.com/liangdas/mqant v1.2.0/go.mod h1:4/fSJqKJ/Ez/L9oaTi2TrJciqXgVcvBFhs0sd4REgW4=
 github.com/liangdas/mqant-modules v1.1.2 h1:ltF43frYG6Y17eg1LrLdTp7rql/WuJhNsxNapMQl+x8=
 github.com/liangdas/mqant-modules v1.1.2/go.mod h1:Ddv4jsfXD6I3E7F4iHBnvnImv7oKp0FfgLjalBRwrME=
 github.com/mattn/go-colorable v0.0.9/go.mod h1:9vuHe8Xs5qXnSaW/c/ABM9alt+Vo+STaOChaDxuIBZU=

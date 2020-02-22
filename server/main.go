@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/liangdas/mqant"
+	"github.com/liangdas/mqant/gate"
 	"github.com/liangdas/mqant/module/modules"
 	"github.com/nats-io/nats.go"
 
@@ -37,6 +38,13 @@ func main() {
 		module.Debug(true),//只有是在调试模式下才会在控制台打印日志, 非调试模式下只在日志文件中输出日志
 		module.Nats(nc),
 		module.Registry(rs),
+		module.SetJudgeGuest(func(session gate.Session) bool {
+			if session.GetUserId()==""{
+				return true
+			}else{
+				return false
+			}
+		}),
 	)
 	app.Options().Selector.Init(selector.SetStrategy(func(services []*registry.Service) selector.Next {
 		var nodes []*registry.Node
